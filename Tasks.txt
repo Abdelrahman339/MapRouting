@@ -1,0 +1,21 @@
+Tasks:
+
+read and write from files.
+
+
+Map.
+ 
+
+
+one task:
+1-(less than O(S E` log V`))
+2-speed handling
+3:
+Graph construction.
+Efficient search for the best path (with the shortest time).
+Best path building.
+
+
+
+Document 
+Analyse code 
