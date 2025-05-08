@@ -20,14 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bestPath\bestPath.cpp" />
-    <ClCompile Include="constructGraph\constructGraph.cpp" />
+    <ClCompile Include="graph\edge.cpp" />
+    <ClCompile Include="graph\coordinates.cpp" />
     <ClCompile Include="File\File.cpp" />
     <ClCompile Include="helperFunction\helperFunctions.cpp" />
     <ClCompile Include="Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bestPath\bestPath.h" />
-    <ClInclude Include="constructGraph\constructGraph.h" />
+    <ClInclude Include="graph\edge.h" />
+    <ClInclude Include="graph\coordinates.h" />
     <ClInclude Include="File\File.h" />
     <ClInclude Include="helperFunction\helperFunctions.h" />
   </ItemGroup>
@@ -117,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

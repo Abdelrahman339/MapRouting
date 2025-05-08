@@ -1,7 +1,2 @@
-﻿  bestPath.cpp
-  constructGraph.cpp
-  File.cpp
-  helperFunctions.cpp
-  main.cpp
-  Generating Code...
+﻿  main.cpp
   mapRouting.vcxproj -> I:\ALGO\MapRouting\x64\Debug\mapRouting.exe

@@ -18,7 +18,7 @@
     <ClCompile Include="bestPath\bestPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="constructGraph\constructGraph.cpp">
+    <ClCompile Include="graph\coordinates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="File\File.cpp">
@@ -30,18 +30,24 @@
     <ClCompile Include="Main\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="graph\edge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bestPath\bestPath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="constructGraph\constructGraph.h">
+    <ClInclude Include="graph\coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="File\File.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="helperFunction\helperFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graph\edge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
