@@ -5,7 +5,8 @@
 #include <cmath>
 #include <math.h>
 #include <utility>
-float calculateEuclideanDistance(float x1, float y1, float x2, float y2);
+
+float calculateEuclideanDistance(float startPointId, float endPointX, float endPointY, unordered_map<int, coordinates>& Nodes);
 
 
 //Radius is given by meters

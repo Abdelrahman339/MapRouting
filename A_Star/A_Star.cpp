@@ -5,10 +5,17 @@
 
 
 float A_Star::calcF(float h, float g) {};
-float A_Star::calch(float n, coordinates destenation, unordered_map<int, coordinates> coordinate) {};
-float A_Star::calcg(float startN, edge endN, float prevG) {};	
 
-vector<int> A_Star::findPath(vector<pair<int, int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate)
+float A_Star::calch(float n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R) {
+	float distance = calculateEuclideanDistance(n, destination.getX_coordinate(), destination.getY_coordinate(), coordinate);
+	float carTime = hoursToMinutes((distance - R) / maxSpeed);
+	float walkingTime = hoursToMinutes(meterToKilometer(R) / walkingTime);
+	return carTime + walkingTime;
+
+};
+float A_Star::calcg(float startN, edge endN, float prevG) {};
+
+vector<int> A_Star::findPath(vector<pair<int, int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed,float R)
 {
 
 	vector <pair<int,vector<int>>> bestPaths;
@@ -34,7 +41,7 @@ vector<int> A_Star::findPath(vector<pair<int, int>> startPoints, vector<float> e
 			for (edge neighbor : neighbors)
 			{	
 				g = calcg(pointId, neighbor, g);
-				h = calch(pointId, DestPoint, coordinate);
+				h = calch(pointId, DestPoint, coordinate,maxSpeed,R);
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
 			}
