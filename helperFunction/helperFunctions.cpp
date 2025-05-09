@@ -1,5 +1,6 @@
 #include "helperFunctions.h"
 #include <cmath>
+
 using namespace std;
 
 
@@ -8,6 +9,26 @@ const float walkingSpeed = 5.0f; //  5km/hr
 float calculateEuclideanDistance(float x1, float y1, float x2, float y2) {
     return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
+
+vector<int> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
+
+    vector<int> result;
+
+    //iterate over all nodes => N-1
+    //for now O(Nodes) , may be changed later
+
+    for (const auto& pair : Nodes) {
+        int nodeId = pair.first;
+        coordinates coord = pair.second;
+        float nodeX = coord.getX_coordinate();
+        float nodeY = coord.getY_coordinate();
+        float distance = calculateEuclideanDistance(targetX, targetY, nodeX, nodeY);
+        if (distance <= radius) 
+            result.push_back(nodeId);
+        
+    }
+}
+
 
 float calculateTime(float distance, float speed) {
     return distance / speed;
