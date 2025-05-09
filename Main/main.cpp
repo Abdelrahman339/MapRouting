@@ -18,9 +18,9 @@ int main() {
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, coordinates> coordinates;
 	vector<query> queries;
-
+	float maxSpeed;
 	file f;
-	coordinates = f.readFile("map2", "[1] Sample Cases/input", graph);
+	coordinates = f.readFile("map2", "[1] Sample Cases/input", graph,maxSpeed);
 	queries = f.readQery("[1] Sample Cases/input/queries1");
 
 
