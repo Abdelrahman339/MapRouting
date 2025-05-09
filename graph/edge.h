@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <unordered_map>
+#include <vector>
 using namespace std;
 
 class edge {
@@ -13,9 +15,10 @@ public:
 	float edgeLength;
 	float edgeSpeed;
 
+	edge();
+	edge(int node,float edgeLength,float edgeSpeed);
 	int getNode();
 	float getlength();
 	float getspeed();
-	edge();
-	edge(int node,float edgeLength,float edgeSpeed);
+	void printEdges(unordered_map<int, vector<edge>> edges);
 };

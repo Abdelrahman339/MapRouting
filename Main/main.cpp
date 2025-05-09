@@ -14,12 +14,13 @@ using namespace std;
 
 int main() {
 
+	//using variables
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, coordinates> coordinates;
 
 
 	file f;
-	coordinates=f.readFile("map2", "[1] Sample Cases/input",graph);
+	coordinates = f.readFile("map2", "[1] Sample Cases/input", graph);
 
 
 

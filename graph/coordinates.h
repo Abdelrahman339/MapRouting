@@ -15,6 +15,8 @@ public:
 	float getY_coordinate();
 	void setX_coordinate(float c);
 	void setY_coordinate(float c);
+
+	void printCoordinates(unordered_map<int, coordinates> coor);
 };
 
 

@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+﻿  mapRouting.vcxproj -> I:\ALGO\MapRouting\x64\Debug\mapRouting.exe
+=======
 ﻿  bestPath.cpp
   edge.cpp
   coordinates.cpp
@@ -6,3 +9,4 @@
   main.cpp
   Generating Code...
   mapRouting.vcxproj -> C:\Users\Kimo Store\Source\Repos\MapRoute\x64\Debug\mapRouting.exe
+>>>>>>> 3796400c7d1116c058ecb7324c7c13dbb076e33f
