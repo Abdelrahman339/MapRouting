@@ -45,3 +45,29 @@ unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest
 	}
 	return Nodes;
 }
+
+vector<query> file::readQery(string fileName) 
+{
+	//file info
+	string dir = "Data/testCases/";
+	string file = dir + fileName + ".txt";
+	ifstream infile(file);
+	if (!infile) {
+		cout << "Failed to open file.\n";
+	}
+
+	//query constract
+
+	int queryNumber;
+	vector<query> queries;
+	infile >> queryNumber;
+	query q;
+
+	for (int i = 0; i < queryNumber; ++i)
+	{	
+		infile >> q.startCoordinate.x_coordinate>>q.startCoordinate.y_coordinate>>q.destCoordinate.x_coordinate>>q.destCoordinate.y_coordinate>>q.walkingDistance;
+		queries.push_back(q);
+	}
+
+	return queries;
+};

@@ -6,7 +6,7 @@
 
 float A_Star::calcF(float h, float g) {};
 float A_Star::calch(float n, coordinates destenation, unordered_map<int, coordinates> coordinate) {};
-float A_Star::calcg(float startN, edge endN, float prevG) {};
+float A_Star::calcg(float startN, edge endN, float prevG) {};	
 
 vector<int> A_Star::findPath(vector<pair<int, int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate)
 {

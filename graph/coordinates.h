@@ -5,10 +5,9 @@
 using namespace std;
 
 class coordinates {
-private:
-	float x_coordinate, y_coordinate;	
 
 public:
+	float x_coordinate, y_coordinate;	
 	coordinates();
 	coordinates(float x_coordinate, float y_coordinate);
 	float getX_coordinate();
