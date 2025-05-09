@@ -8,7 +8,7 @@ class query {
 public:
 	coordinates startCoordinate;
 	coordinates destCoordinate;
-	float walkingDistance;
+	float R;
 
 
 };
