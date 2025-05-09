@@ -30,8 +30,14 @@ vector<int> getNodesWithinRadius(float targetX, float targetY, float radius, uno
 }
 
 
-float calculateTime(float distance, float speed) {
-    return distance / speed;
+float calculateRoadTime(float distance, float speed) {
+    return (distance / speed);
+}
+
+float calculateWalkingTime(float distance) {
+    float walkSpeedInMeterPerMin = ((walkingSpeed * 1000) / 60);
+    return distance/walkSpeedInMeterPerMin;
+
 }
 
 //For distances
