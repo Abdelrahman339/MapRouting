@@ -15,7 +15,6 @@ class file {
 
 
 public:
-	file();
 	unordered_map<int, coordinates> readFile(string fileName,string typeOftest,unordered_map<int,vector<edge>>&graph);
 	unordered_map<int, coordinates> writeFile(string fileName, string typeOftest);
 
