@@ -6,11 +6,10 @@ using namespace std;
 
 const float walkingSpeed = 5.0f; //  5km/hr
 
-float calculateEuclideanDistance(float startPointId,float endPointId, unordered_map<int, coordinates>& Nodes) {
+float calculateEuclideanDistance(float startPointId,float endPointX,float endPointY, unordered_map<int, coordinates>& Nodes) {
     coordinates startPointcoor = Nodes[startPointId];
-    coordinates endPointcoor = Nodes[endPointId];
-    float X = (endPointcoor.getX_coordinate() - startPointcoor.getX_coordinate());
-    float Y = (endPointcoor.getY_coordinate() - startPointcoor.getY_coordinate());
+    float X = (endPointX - startPointcoor.getX_coordinate());
+    float Y = (endPointY - startPointcoor.getY_coordinate());
 
     return sqrt(X + Y);
 }

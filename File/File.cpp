@@ -2,7 +2,7 @@
 
 
 
-unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest, unordered_map<int, vector<edge>>&graph) {
+unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest, unordered_map<int, vector<edge>>&graph,float &maxSpeed) {
 	
 	//file info
 	string dir = "Data/testCases/";
@@ -37,11 +37,15 @@ unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest
 	//graph construction 
 	int numberOfEdges;
 	infile >> numberOfEdges;
+	float max = -1;
 	for (int i = 0; i < numberOfEdges; ++i) {
 		edge e;
 		int vertex;
 		infile >> vertex >> e.node>> e.edgeLength>> e.edgeSpeed;
 		graph[vertex].push_back(e);
+
+		if (e.edgeSpeed > max)
+			max = e.edgeSpeed;
 	}
 	return Nodes;
 }
