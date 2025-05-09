@@ -10,6 +10,31 @@
 //3) Explore Nodes
 //4) terminate when optimal path is found
 
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <queue>
+#include "../graph/edge.h"
+#include "../graph/coordinates.h" 
+#include "../helperFunction/helperFunctions.h"
+using namespace std;
+
+class A_Star {
+
+public:
+	float f, h, g;
+
+
+
+	float calcF(float h, float g);
+	float calch(float n, coordinates destenation, unordered_map<int, coordinates> coordinate);
+	float calcg(float startN, edge endN, float prevG);
+
+	vector<int> findPath(vector<pair<int,int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate);
+
+
+
+};
 
 
 

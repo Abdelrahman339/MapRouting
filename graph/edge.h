@@ -14,7 +14,6 @@ public:
 	int node;
 	float edgeLength;
 	float edgeSpeed;
-
 	edge();
 	edge(int node,float edgeLength,float edgeSpeed);
 	int getNode();
