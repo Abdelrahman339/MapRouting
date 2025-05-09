@@ -4,20 +4,19 @@
 using namespace std;
 
 
-const float walkingSpeed = 5.0f; //  5km/hr
 
 float calculateEuclideanDistance(float startPointId,float endPointX,float endPointY, unordered_map<int, coordinates>& Nodes) {
     coordinates startPointcoor = Nodes[startPointId];
     float X = (endPointX - startPointcoor.getX_coordinate());
     float Y = (endPointY - startPointcoor.getY_coordinate());
 
-    return sqrt(X + Y);
+    return sqrt(X*X + Y*Y);
 }
 
-vector<pair<int,int>> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
+vector<pair<int,float>> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
 
-    vector<pair<int,int>> result;
-
+    vector<pair<int,float>> result;
+    radius = meterToKilometer(radius);
     //iterate over all nodes => N-1
     //for now O(Nodes) , may be changed later
 
@@ -26,12 +25,13 @@ vector<pair<int,int>> getNodesWithinRadius(float targetX, float targetY, float r
         coordinates coord = pair.second;
         float nodeX = coord.getX_coordinate();
         float nodeY = coord.getY_coordinate();
-        float distance = calculateEuclideanDistance(targetX, targetY, nodeX, nodeY);
+        float distance = calculateEuclideanDistance(nodeId,targetX,targetY,Nodes);
         if (distance <= radius) 
             result.push_back(make_pair(nodeId,distance));
         if (distance < 0.002) break;
         
     }
+    return result;
 }
 
 

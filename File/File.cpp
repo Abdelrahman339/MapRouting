@@ -67,9 +67,9 @@ vector<query> file::readQery(string fileName)
 	infile >> queryNumber;
 	query q;
 
-	for (int i = 0; i < queryNumber; ++i)
+	for (int i = 0; i < queryNumber; i++)
 	{	
-		infile >> q.startCoordinate.x_coordinate>>q.startCoordinate.y_coordinate>>q.destCoordinate.x_coordinate>>q.destCoordinate.y_coordinate>>q.walkingDistance;
+		infile >> q.startCoordinate.x_coordinate>>q.startCoordinate.y_coordinate>>q.destCoordinate.x_coordinate>>q.destCoordinate.y_coordinate>>q.R;
 		queries.push_back(q);
 	}
 

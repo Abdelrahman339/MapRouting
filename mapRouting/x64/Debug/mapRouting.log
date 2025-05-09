@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-﻿  mapRouting.vcxproj -> I:\ALGO\MapRouting\x64\Debug\mapRouting.exe
-=======
-﻿  bestPath.cpp
-  edge.cpp
-  coordinates.cpp
-  File.cpp
-  helperFunctions.cpp
+﻿  A_Star.cpp
+I:\ALGO\MapRouting\A_Star\A_Star.cpp(46,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+I:\ALGO\MapRouting\A_Star\A_Star.cpp(58,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+I:\ALGO\MapRouting\A_Star\A_Star.cpp(59,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   main.cpp
   Generating Code...
-  mapRouting.vcxproj -> C:\Users\Kimo Store\Source\Repos\MapRoute\x64\Debug\mapRouting.exe
->>>>>>> 3796400c7d1116c058ecb7324c7c13dbb076e33f
+  mapRouting.vcxproj -> I:\ALGO\MapRouting\x64\Debug\mapRouting.exe

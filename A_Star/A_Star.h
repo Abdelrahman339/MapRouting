@@ -31,7 +31,7 @@ public:
 	float calch(float n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R);
 	float calcg(float startN, edge endN, float prevG);
 
-	vector<int> findPath(vector<pair<int,int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed,query q);
+	vector<int> findPath(vector<pair<int,float>> startPoints, vector<pair<int, float>>endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed, vector<query> q);
 
 
 
