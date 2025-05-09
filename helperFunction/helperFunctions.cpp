@@ -58,16 +58,6 @@ float minuteToHours(float minutes) {
     return minutes / 60.0f;
 }
 
-//vector<int> getNodesWithinRadius(, float x, float y, float radius) {
-//    vector<int> result;
-//    for () {
-//        
-//        
-//        float distance = calculateEuclideanDistance(targetX, targetY, node.x, node.y);
-//        if (distance <= radius) {
-//            result.push_back(node.id);
-//        }
-//    return result;
-//}
+
 
 
