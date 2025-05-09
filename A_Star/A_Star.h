@@ -17,6 +17,7 @@
 #include "../graph/edge.h"
 #include "../graph/coordinates.h" 
 #include "../helperFunction/helperFunctions.h"
+#include "../query/query.h"
 using namespace std;
 
 class A_Star {
@@ -30,7 +31,7 @@ public:
 	float calch(float n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R);
 	float calcg(float startN, edge endN, float prevG);
 
-	vector<int> findPath(vector<pair<int,int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed,float R);
+	vector<int> findPath(vector<pair<int,int>> startPoints, vector<float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed,query q);
 
 
 
