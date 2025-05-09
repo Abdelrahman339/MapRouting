@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bestPath\bestPath.cpp" />
+    <ClCompile Include="A_Star\A_Star.cpp" />
     <ClCompile Include="graph\edge.cpp" />
     <ClCompile Include="graph\coordinates.cpp" />
     <ClCompile Include="File\File.cpp" />
@@ -27,7 +27,7 @@
     <ClCompile Include="Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bestPath\bestPath.h" />
+    <ClInclude Include="A_Star\A_Star.h" />
     <ClInclude Include="graph\edge.h" />
     <ClInclude Include="graph\coordinates.h" />
     <ClInclude Include="File\File.h" />

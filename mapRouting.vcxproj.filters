@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bestPath\bestPath.cpp">
+    <ClCompile Include="A_Star\A_Star.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="graph\coordinates.cpp">
@@ -35,7 +35,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bestPath\bestPath.h">
+    <ClInclude Include="A_Star\A_Star.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="graph\coordinates.h">
