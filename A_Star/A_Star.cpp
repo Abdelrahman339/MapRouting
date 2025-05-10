@@ -60,8 +60,8 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 			if (neighbors.empty()) break;
 			for (edge neighbor : neighbors)
 			{	
-				g = calcg(pointId, neighbor, g);
-				h = calch(pointId, DestPoint, coordinate, maxSpeed, q.R);
+				g = calcG(pointId, neighbor, g);
+				h = calcH(pointId, DestPoint, coordinate, maxSpeed, q.R);
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
 				prevGs[neighbor.node] = g;
