@@ -1,5 +1,3 @@
 ﻿  A_Star.cpp
-C:\Users\Kimo Store\Source\Repos\MapRoute\A_Star\A_Star.cpp(46,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Kimo Store\Source\Repos\MapRoute\A_Star\A_Star.cpp(58,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Kimo Store\Source\Repos\MapRoute\A_Star\A_Star.cpp(59,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  mapRouting.vcxproj -> C:\Users\Kimo Store\Source\Repos\MapRoute\x64\Debug\mapRouting.exe
+I:\ALGO\MapRouting\A_Star\A_Star.cpp(12,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  mapRouting.vcxproj -> I:\ALGO\MapRouting\x64\Debug\mapRouting.exe
