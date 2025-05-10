@@ -10,8 +10,8 @@ float A_Star::calcF(float h, float g) {
 
 float A_Star::calch(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R) {
 	float distance = calculateEuclideanDistance(n, destination.x_coordinate, destination.y_coordinate, coordinate);
-	float carTime = hoursToMinutes((distance - meterToKilometer(R) )/ maxSpeed);
-	float walkTime = hoursToMinutes(meterToKilometer(R) / walkingSpeed);
+	float carTime = hoursToMinutes((distance - R )/ maxSpeed);
+	float walkTime = hoursToMinutes(R / walkingSpeed);
 	return carTime + walkTime;
 
 };

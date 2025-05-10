@@ -1,3 +1,2 @@
-﻿  A_Star.cpp
-I:\ALGO\MapRouting\A_Star\A_Star.cpp(12,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  File.cpp
   mapRouting.vcxproj -> I:\ALGO\MapRouting\x64\Debug\mapRouting.exe
