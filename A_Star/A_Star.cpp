@@ -9,10 +9,13 @@ float A_Star::calcF(float h, float g) {
 };
 
 float A_Star::calcH(int n, coordinates destination, unordered_map<int, coordinates> coordinate, float maxSpeed, float R) {
-	float distance = calculateEuclideanDistance(n, destination.getX_coordinate(), destination.getY_coordinate(), coordinate);
-	float carTime = hoursToMinutes((distance - meterToKilometer(R)) / maxSpeed);
-	float walkTime = hoursToMinutes(meterToKilometer(R) / walkingSpeed);
-	return carTime + walkTime;
+	float distance = calculateEuclideanDistance(n, destination.x_coordinate, destination.y_coordinate, coordinate);
+	if(distance<R)
+		return hoursToMinutes(distance / walkingSpeed);
+	float carTime = hoursToMinutes((distance - R) / maxSpeed);
+	float walkTime = hoursToMinutes(R / walkingSpeed);
+	float totalTime = carTime + walkTime;
+	return totalTime;
 
 };
 
@@ -26,11 +29,16 @@ float A_Star::calcG(int startN, edge endN, float prevG) {
 
 };
 
-vector<int> A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<int, float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate, float maxSpeed, vector<query> qu)
+bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<int, float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate, float maxSpeed, vector<query> qu)
 {
 	query q = qu[0];
-	unordered_map<int, vector<int>> bestPaths;
+
+
+	priority_queue<bestPath, vector<bestPath>, greater<bestPath>> bestPathes;
 	unordered_map<int, float>prevGs;
+
+
+
 	// Min-heap priority_queue to sort paths by cost (float)
 	auto cmp = [](const pair<int, float>& a, const pair<int, float>& b) {
 		return a.second > b.second;
@@ -40,7 +48,7 @@ vector<int> A_Star::findPath(unordered_map<int, float> startPoints, unordered_ma
 	g = 0;
 	int pointId;
 	vector<int> best;
-	thePath:
+	bestPath path;
 	for (auto& [startPointId, distance] : startPoints)
 	{
 		//g,f,h for starting points
@@ -50,27 +58,35 @@ vector<int> A_Star::findPath(unordered_map<int, float> startPoints, unordered_ma
 		f = calcF(h, g);
 		bestPathQ.push(make_pair(pointId, f));
 		prevGs[pointId] = g;
+		path.startNodeId = startPointId;
+
 		while (true)
 		{
 			pointId = bestPathQ.top().first;
-			bestPaths[startPointId].push_back(pointId);
+			path.nodes.push_back(pointId);
+			path.f = f;
 			prevG = prevGs[pointId];
 			bestPathQ.pop();
 			vector<edge> neighbors;
 			neighbors = graph[pointId];
+			if (neighbors.empty())
+				break;
 			for (edge neighbor : neighbors)
 			{
-				if (endPoints.find(pointId) != endPoints.end() && endPoints.find(neighbor.node) != endPoints.end())
-				{
-					goto thePath;
-				}
-				g = calcG(pointId, neighbor, g);
-				h = calcH(pointId, DestPoint, coordinate, maxSpeed, q.R);
+				//if (endPoints.find(pointId) != endPoints.end() && endPoints.find(neighbor.node) != endPoints.end())
+				//{
+				//	goto thePath;
+				//}
+				g = calcG(pointId, neighbor, prevG);
+				h = calcH(neighbor.node, DestPoint, coordinate, maxSpeed, q.R);
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
 				prevGs[neighbor.node] = g;
 			}
+
 		}
+
+		bestPathes.push(path);
 	}
-	return best=bestPaths[0];
+	return bestPathes.top();
 };

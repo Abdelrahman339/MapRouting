@@ -36,6 +36,9 @@
     <ClCompile Include="query\query.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bestPath\bestPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="A_Star\A_Star.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="query\query.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bestPath\bestPath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

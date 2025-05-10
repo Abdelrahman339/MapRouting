@@ -18,7 +18,7 @@ int main() {
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, coordinates> coordinates;
 	vector<query> queries;
-	vector<int> bestPath;
+	bestPath bestPath;
 	float maxSpeed=-1;
 	file f;
 	coordinates = f.readFile("map1", "[1] Sample Cases/input", graph, maxSpeed);
@@ -29,7 +29,7 @@ int main() {
 	bestPath=path.findPath(startPoints, endPoints, queries[0].destCoordinate, graph, coordinates, maxSpeed, queries);
 
 	cout << "the path:\n";
-	for (int node : bestPath)
+	for (float node : bestPath.nodes)
 		cout << "node: " << node << endl;
 	return 0;
 }
