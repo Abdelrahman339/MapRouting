@@ -14,12 +14,14 @@ using namespace std;
 
 int main() {
 
-	//using variables
+
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, coordinates> coordinates;
 	vector<query> queries;
 	float maxSpeed;
 	file f;
+
+	//Problem here in readFile => No return of maxSpeed therefore it was assigned garbage when being passed
 	coordinates = f.readFile("map2", "[1] Sample Cases/input", graph, maxSpeed);
 	queries = f.readQery("[1] Sample Cases/input/queries1");
 	vector<pair<int, float>> startPoints=getNodesWithinRadius(queries[0].startCoordinate.x_coordinate, queries[0].startCoordinate.y_coordinate, queries[0].R,coordinates);

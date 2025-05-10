@@ -28,8 +28,8 @@ public:
 
 
 	float calcF(float h, float g);
-	float calch(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R);
-	float calcg(int startN, edge endN, float prevG);
+	float calcH(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R);
+	float calcG(int startN, edge endN, float prevG);
 
 	vector<int> findPath(vector<pair<int,float>> startPoints, vector<pair<int, float>>endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed, vector<query> q);
 
