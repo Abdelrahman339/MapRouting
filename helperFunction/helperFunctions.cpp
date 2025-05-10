@@ -13,9 +13,9 @@ float calculateEuclideanDistance(float startPointId,float endPointX,float endPoi
     return sqrt(X*X + Y*Y);
 }
 
-vector<pair<int,float>> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
+unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
 
-    vector<pair<int,float>> result;
+    unordered_map<int, float>result;
     //iterate over all nodes => N-1
     //for now O(Nodes) , may be changed later
 
@@ -25,8 +25,8 @@ vector<pair<int,float>> getNodesWithinRadius(float targetX, float targetY, float
         float nodeX = coord.getX_coordinate();
         float nodeY = coord.getY_coordinate();
         float distance = calculateEuclideanDistance(nodeId,targetX,targetY,Nodes);
-        if (distance <= radius) 
-            result.push_back(make_pair(nodeId,distance));
+        if (distance <= radius)
+            result[nodeId] = distance;
        
         
     }
