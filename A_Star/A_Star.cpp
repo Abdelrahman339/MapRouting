@@ -8,15 +8,15 @@ float A_Star::calcF(float h, float g) {
 	return h + g;
 };
 
-float A_Star::calch(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R) {
-	float distance = calculateEuclideanDistance(n, destination.x_coordinate, destination.y_coordinate, coordinate);
-	float carTime = hoursToMinutes((distance - R )/ maxSpeed);
-	float walkTime = hoursToMinutes(R / walkingSpeed);
+float A_Star::calcH(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R) {
+	float distance = calculateEuclideanDistance(n, destination.getX_coordinate(), destination.getY_coordinate(), coordinate);
+	float carTime = hoursToMinutes((distance - meterToKilometer(R) )/ maxSpeed);
+	float walkTime = hoursToMinutes(meterToKilometer(R) / walkingSpeed);
 	return carTime + walkTime;
 
 };
 
-float A_Star::calcg(int startN, edge endN, float prevG) {
+float A_Star::calcG(int startN, edge endN, float prevG) {
 	
 	float roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeed);
 	roadTime = hoursToMinutes(roadTime);
@@ -44,7 +44,7 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 		//g,f,h for starting points
 		pointId = startPointId;
 		g = calculateWalkingTime(kilometerToMeter(distance));
-		h = calch(pointId, DestPoint, coordinate,maxSpeed,q.R);
+		h = calcH(pointId, DestPoint, coordinate,maxSpeed,q.R);
 		f = calcF(h, g);
 		bestPathQ.push(make_pair(pointId,f));
 		prevGs[pointId] = g;
@@ -54,13 +54,15 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 			bestPaths[startPointId].push_back(pointId);
 			prevG=prevGs[pointId];
 			bestPathQ.pop();
+
 			vector<edge> neighbors;
 			neighbors = graph[pointId];
+
 			if (neighbors.empty()) break;
 			for (edge neighbor : neighbors)
 			{	
-				g = calcg(pointId, neighbor, prevG);
- 				h = calch(neighbor.node, DestPoint, coordinate, maxSpeed, q.R);
+				g = calcG(pointId, neighbor, g);
+				h = calcH(pointId, DestPoint, coordinate, maxSpeed, q.R);
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
 				prevGs[neighbor.node] = g;

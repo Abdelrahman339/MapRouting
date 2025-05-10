@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-	//using variables
+
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, coordinates> coordinates;
 	vector<query> queries;
