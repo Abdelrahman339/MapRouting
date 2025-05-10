@@ -14,11 +14,13 @@
 #include <unordered_map>
 #include <vector>
 #include <queue>
+#include <unordered_set>
 #include "../graph/edge.h"
 #include "../graph/coordinates.h" 
 #include "../helperFunction/helperFunctions.h"
 #include "../query/query.h"
 #include "../bestPath/bestPath.h"
+
 using namespace std;
 
 class A_Star {

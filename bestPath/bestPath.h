@@ -2,13 +2,14 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 using namespace std;
 
 class bestPath
 {
 public:
 	int startNodeId;
-	vector<int>nodes;
+	unordered_set<int>nodes;
 	float time;
 	float roadDistance;
 	float walkingDistance;

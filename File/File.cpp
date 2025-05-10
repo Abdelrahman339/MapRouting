@@ -2,15 +2,15 @@
 
 
 
-unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest, unordered_map<int, vector<edge>>&graph,float &maxSpeed) {
-	
+unordered_map<int, coordinates> file::readFile(string fileName, string typeOftest, unordered_map<int, vector<edge>>& graph, float& maxSpeed) {
+
 	//file info
 	string dir = "Data/testCases/";
 	dir = dir + typeOftest + "/";
-	string file = dir + fileName+".txt";
+	string file = dir + fileName + ".txt";
 	ifstream infile(file);
 	if (!infile) {
-		cout<< "Failed to open file.\n";
+		cout << "Failed to open file.\n";
 	}
 
 
@@ -37,11 +37,17 @@ unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest
 	//graph construction 
 	int numberOfEdges;
 	infile >> numberOfEdges;
+	int temp;
+	edge e;
+	int vertex;
 	for (int i = 0; i < numberOfEdges; ++i) {
-		edge e;
-		int vertex;
-		infile >> vertex >> e.node>> e.edgeLength>> e.edgeSpeed;
+		infile >> vertex >> e.node >> e.edgeLength >> e.edgeSpeed;
 		graph[vertex].push_back(e);
+		temp = vertex;
+		vertex = e.node;
+		e.node = temp;
+		graph[vertex].push_back(e);
+
 
 		if (e.edgeSpeed > maxSpeed)
 			maxSpeed = e.edgeSpeed;
@@ -49,7 +55,7 @@ unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest
 	return Nodes;
 }
 
-vector<query> file::readQery(string fileName) 
+vector<query> file::readQery(string fileName)
 {
 	//file info
 	string dir = "Data/testCases/";
@@ -68,7 +74,7 @@ vector<query> file::readQery(string fileName)
 
 	for (int i = 0; i < queryNumber; i++)
 	{
-		infile >> q.startCoordinate.x_coordinate>>q.startCoordinate.y_coordinate>>q.destCoordinate.x_coordinate>>q.destCoordinate.y_coordinate>>q.R;
+		infile >> q.startCoordinate.x_coordinate >> q.startCoordinate.y_coordinate >> q.destCoordinate.x_coordinate >> q.destCoordinate.y_coordinate >> q.R;
 		q.R = meterToKilometer(q.R);
 		queries.push_back(q);
 	}
