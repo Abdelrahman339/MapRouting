@@ -16,7 +16,6 @@ float calculateEuclideanDistance(float startPointId,float endPointX,float endPoi
 vector<pair<int,float>> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
 
     vector<pair<int,float>> result;
-    radius = meterToKilometer(radius);
     //iterate over all nodes => N-1
     //for now O(Nodes) , may be changed later
 

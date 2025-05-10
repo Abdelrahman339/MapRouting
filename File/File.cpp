@@ -37,15 +37,14 @@ unordered_map<int ,coordinates> file::readFile(string fileName,string typeOftest
 	//graph construction 
 	int numberOfEdges;
 	infile >> numberOfEdges;
-	float max = -1;
 	for (int i = 0; i < numberOfEdges; ++i) {
 		edge e;
 		int vertex;
 		infile >> vertex >> e.node>> e.edgeLength>> e.edgeSpeed;
 		graph[vertex].push_back(e);
 
-		if (e.edgeSpeed > max)
-			max = e.edgeSpeed;
+		if (e.edgeSpeed > maxSpeed)
+			maxSpeed = e.edgeSpeed;
 	}
 	return Nodes;
 }

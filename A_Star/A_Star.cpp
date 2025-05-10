@@ -29,7 +29,7 @@ float A_Star::calcg(int startN, edge endN, float prevG) {
 vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<int, float>> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed,vector<query> qu)
 {
 	query q = qu[0];
-	vector<pair<int, vector<int>>> bestPaths;
+	unordered_map<int, vector<int>> bestPaths;
 	unordered_map<int, float>prevGs;
 	// Min-heap priority_queue to sort paths by cost (float)
 	auto cmp = [](const pair<int, float>& a, const pair<int, float>& b) {
@@ -51,6 +51,7 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 		while (true)
 		{
 			pointId = bestPathQ.top().first;
+			bestPaths[startPointId].push_back(pointId);
 			prevG=prevGs[pointId];
 			bestPathQ.pop();
 			vector<edge> neighbors;
