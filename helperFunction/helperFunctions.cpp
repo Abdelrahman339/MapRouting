@@ -28,7 +28,7 @@ vector<pair<int,float>> getNodesWithinRadius(float targetX, float targetY, float
         float distance = calculateEuclideanDistance(nodeId,targetX,targetY,Nodes);
         if (distance <= radius) 
             result.push_back(make_pair(nodeId,distance));
-        if (distance < 0.002) break;
+       
         
     }
     return result;

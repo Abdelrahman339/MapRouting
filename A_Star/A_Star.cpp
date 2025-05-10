@@ -8,7 +8,7 @@ float A_Star::calcF(float h, float g) {
 	return h + g;
 };
 
-float A_Star::calch(float n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R) {
+float A_Star::calch(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R) {
 	float distance = calculateEuclideanDistance(n, destination.getX_coordinate(), destination.getY_coordinate(), coordinate);
 	float carTime = hoursToMinutes((distance - R) / maxSpeed);
 	float walkTime = hoursToMinutes(meterToKilometer(R) / walkingSpeed);
@@ -16,7 +16,7 @@ float A_Star::calch(float n, coordinates destination, unordered_map<int, coordin
 
 };
 
-float A_Star::calcg(float startN, edge endN, float prevG) {
+float A_Star::calcg(int startN, edge endN, float prevG) {
 	
 	float roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeed);
 	float time=hoursToMinutes(prevG + roadTime);
@@ -42,7 +42,7 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 	{
 		//g,f,h for starting points
 		pointId = startPointId;
-		g = calculateWalkingTime(distance);
+		g = calculateWalkingTime(kilometerToMeter(distance));
 		h = calch(pointId, DestPoint, coordinate,maxSpeed,q.R);
 		f = calcF(h, g);
 		bestPathQ.push(make_pair(pointId,f));
