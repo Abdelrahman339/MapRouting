@@ -19,7 +19,8 @@ float A_Star::calcH(int n, coordinates destination, unordered_map<int, coordinat
 float A_Star::calcG(int startN, edge endN, float prevG) {
 	
 	float roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeed);
-	float time=hoursToMinutes(prevG + roadTime);
+	roadTime = hoursToMinutes(roadTime);
+	float time = prevG + roadTime;
 	return time;
 
 		
@@ -29,13 +30,13 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 {
 	query q = qu[0];
 	vector<pair<int, vector<int>>> bestPaths;
-
+	unordered_map<int, float>prevGs;
 	// Min-heap priority_queue to sort paths by cost (float)
 	auto cmp = [](const pair<int, float>& a, const pair<int, float>& b) {
 		return a.second > b.second;
 		};
 	priority_queue<pair<int, float>, vector<pair<int, float>>, decltype(cmp)> bestPathQ(cmp);
-	float f, g, h;
+	float f, g, h,prevG;
 	g = 0;
 	int pointId;
 	for (auto& [startPointId, distance] : startPoints)
@@ -46,9 +47,11 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 		h = calcH(pointId, DestPoint, coordinate,maxSpeed,q.R);
 		f = calcF(h, g);
 		bestPathQ.push(make_pair(pointId,f));
+		prevGs[pointId] = g;
 		while (true)
 		{
 			pointId = bestPathQ.top().first;
+			prevG=prevGs[pointId];
 			bestPathQ.pop();
 
 			vector<edge> neighbors;
@@ -57,10 +60,11 @@ vector<int> A_Star::findPath(vector<pair<int, float>> startPoints, vector<pair<i
 			if (neighbors.empty()) break;
 			for (edge neighbor : neighbors)
 			{	
-				g = calcG(pointId, neighbor, g);
-				h = calcH(pointId, DestPoint, coordinate, maxSpeed, q.R);
+				g = calcg(pointId, neighbor, g);
+				h = calch(pointId, DestPoint, coordinate, maxSpeed, q.R);
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
+				prevGs[neighbor.node] = g;
 			}
 		}
 	}

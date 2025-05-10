@@ -2,6 +2,7 @@
 #include "../graph/edge.h"
 #include "../graph/coordinates.h"
 #include "../query/query.h"
+#include "../helperFunction/helperFunctions.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
