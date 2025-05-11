@@ -33,9 +33,9 @@ int main() {
 		cout << node <<" ";
 	cout<<endl;
 	cout << bestPath.time <<" mins" << endl;
-	cout << bestPath.roadDistance + bestPath.walkingDistance << " km"<< endl;
-	cout << bestPath.walkingDistance << " km"<< endl;
-	cout << bestPath.roadDistance << " km"<< endl;
+	cout << truncateTwoDecimals(bestPath.roadDistance + bestPath.walkingDistance) << " km"<< endl;
+	cout << truncateTwoDecimals(bestPath.walkingDistance) << " km"<< endl;
+	cout << truncateTwoDecimals(bestPath.roadDistance) << " km"<< endl;
 
 	return 0;
 }

@@ -20,7 +20,7 @@ float calculateWalkingTime(float distance);//called twice (1st time => to reach 
 
 float kilometerToMeter(float kilo);
 float meterToKilometer(float meter);
-
 float hoursToMinutes(float hours);
 float minuteToHours(float minutes);
+float truncateTwoDecimals(float value);
 

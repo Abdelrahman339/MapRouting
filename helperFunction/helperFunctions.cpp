@@ -62,6 +62,9 @@ float minuteToHours(float minutes) {
     return minutes / 60.0f;
 }
 
+float truncateTwoDecimals(float value) {
+    return static_cast<int>(value * 100) / 100.0;
+}
 
 
 
