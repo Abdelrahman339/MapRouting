@@ -32,8 +32,9 @@ float A_Star::calcG(int startN, edge endN, float prevG) {
 
 bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<int, float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate, float maxSpeed, vector<query> qu)
 {
-	query q = qu[7];
 
+	query q = qu[7];
+	//for (int i = 0; i < q.NumOfQueries; i++) {};
 
 	priority_queue<bestPath, vector<bestPath>, greater<bestPath>> bestPathes;
 	unordered_map<int, float>prevGs;

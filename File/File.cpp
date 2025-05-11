@@ -55,7 +55,7 @@ unordered_map<int, coordinates> file::readFile(string fileName, string typeOftes
 	return Nodes;
 }
 
-vector<query> file::readQery(string fileName)
+vector<query> file::readQuery(string fileName)
 {
 	//file info
 	string dir = "Data/testCases/";
@@ -67,13 +67,14 @@ vector<query> file::readQery(string fileName)
 
 	//query constract
 
-	int queryNumber;
+	int numberOfQueries;
 	vector<query> queries;
-	infile >> queryNumber;
+	infile >> numberOfQueries;
 	query q;
 
-	for (int i = 0; i < queryNumber; i++)
+	for (int i = 0; i < numberOfQueries; i++)
 	{
+		q.NumOfQueries = numberOfQueries;
 		infile >> q.startCoordinate.x_coordinate >> q.startCoordinate.y_coordinate >> q.destCoordinate.x_coordinate >> q.destCoordinate.y_coordinate >> q.R;
 		q.R = meterToKilometer(q.R);
 		queries.push_back(q);
