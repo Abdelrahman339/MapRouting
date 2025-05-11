@@ -33,13 +33,13 @@ float A_Star::calcG(int startN, edge endN, float prevG) {
 bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<int, float> endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate, float maxSpeed, vector<query> qu)
 {
 
-	query q = qu[7];
+	query q = qu[0];
 	//for (int i = 0; i < q.NumOfQueries; i++) {};
 
 	priority_queue<bestPath, vector<bestPath>, greater<bestPath>> bestPathes;
 	unordered_map<int, float>prevGs;
 	unordered_set<int>visitedNodes;
-
+	unordered_map<int, float> prevRoadDistances;
 
 	// Min-heap priority_queue to sort paths by cost (float)
 	function<bool(pair<int, float>, pair<int, float>)> cmp = [](pair<int, float> a, pair<int, float> b) {
@@ -59,16 +59,25 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 		g = calculateWalkingTime(kilometerToMeter(distance));
 		h = calcH(pointId, DestPoint, coordinate, maxSpeed, q.R);
 		f = calcF(h, g);
+
+		//TOTAL DISTANCE AND TIME CALCULATIONS
+		path.walkingDistance = distance;
+		path.time = g;
+		prevRoadDistances[startPointId] = 0;  
+
+
 		bestPathQ.push(make_pair(pointId, f));
 		prevGs[pointId] = g;
 		path.startNodeId = startPointId;
 		visitedNodes.insert(startPointId);
+
 		while (true)
 		{
 			pointId = bestPathQ.top().first;
 			path.nodes.insert(pointId);
 			path.f = f;
 			prevG = prevGs[pointId];
+
 			if (endPoints.find(pointId) == endPoints.end())
 				bestPathQ = priority_queue<pair<int, float>, vector<pair<int, float>>, decltype(cmp)>(cmp);
 			
@@ -77,7 +86,10 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 			if (neighbors.empty())
 				break;
 			for (edge neighbor : neighbors)
-			{
+			{	
+				float newRoadDist = prevRoadDistances[pointId] + neighbor.edgeLength;
+
+
 				if (endPoints.find(pointId) != endPoints.end() && endPoints.find(neighbor.node) == endPoints.end())
 				{
 					counter++;
@@ -93,7 +105,14 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
 				prevGs[neighbor.node] = g;
+				prevRoadDistances[neighbor.node] = newRoadDist;
 			}
+
+			if (endPoints.count(pointId)) {
+				path.roadDistance = prevRoadDistances[pointId];
+			}
+			
+		
 			if (counter == neighbors.size())
 				break;
 			counter = 0;

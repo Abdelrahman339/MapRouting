@@ -6,7 +6,7 @@ using namespace std;
 class query {
 
 public:
-	static int NumOfQueries;
+	int NumOfQueries;
 	coordinates startCoordinate;
 	coordinates destCoordinate;
 	float R;
