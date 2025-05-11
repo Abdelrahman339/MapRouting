@@ -39,9 +39,10 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 	priority_queue<bestPath, vector<bestPath>, greater<bestPath>> bestPathes;
 	unordered_map<int, float>prevGs;
 	unordered_set<int>visitedNodes;
+
 	unordered_map<int, float> prevRoadDistances;
 	unordered_map<int, float> prevWalkDistances;
-
+	unordered_map<int, float> prevRoadTime;
 
 	// Min-heap priority_queue to sort paths by cost (float)
 	function<bool(pair<int, float>, pair<int, float>)> cmp = [](pair<int, float> a, pair<int, float> b) {
@@ -64,7 +65,7 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 
 		//TOTAL DISTANCE AND TIME CALCULATIONS
 		prevWalkDistances[startPointId] = distance;
-		path.time = g;
+		prevRoadTime[startPointId] = 0;
 		prevRoadDistances[startPointId] = 0;  
 
 
@@ -90,7 +91,8 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 			for (edge neighbor : neighbors)
 			{	
 				float newRoadDist = prevRoadDistances[pointId] + neighbor.edgeLength;
-				float newWalkDist=prevWalkDistances[neighbor.node] = prevWalkDistances[pointId];
+				float newWalkDist  = prevWalkDistances[pointId];
+				float newRoadTime = prevRoadTime[pointId] + calculateRoadTime(neighbor.edgeLength, neighbor.edgeSpeed);
 
 
 
@@ -109,13 +111,18 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 				f = calcF(h, g);
 				bestPathQ.push(make_pair(neighbor.node, f));
 				prevGs[neighbor.node] = g;
+
 				prevRoadDistances[neighbor.node] = newRoadDist;
 				prevWalkDistances[neighbor.node] = newWalkDist;
+				prevRoadTime[neighbor.node] = newRoadTime;
 			}
 
 			if (endPoints.count(pointId)) {
 				path.roadDistance = prevRoadDistances[pointId];
 				path.walkingDistance = prevWalkDistances[pointId]+ (endPoints[pointId]);
+				float walkingTime =  hoursToMinutes((1/5)*(path.walkingDistance));
+				float roadTime= hoursToMinutes(prevRoadTime[pointId]);
+				path.time = walkingTime + roadTime;
 			}
 		
 			if (counter == neighbors.size())

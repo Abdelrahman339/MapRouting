@@ -32,7 +32,7 @@ int main() {
 	for (float node : bestPath.nodes)
 		cout << node <<" ";
 	cout<<endl;
-	cout << bestPath.time <<" mins" << endl;
+	cout << truncateTwoDecimals(bestPath.time) <<" mins" << endl;
 	cout << truncateTwoDecimals(bestPath.roadDistance + bestPath.walkingDistance) << " km"<< endl;
 	cout << truncateTwoDecimals(bestPath.walkingDistance) << " km"<< endl;
 	cout << truncateTwoDecimals(bestPath.roadDistance) << " km"<< endl;
