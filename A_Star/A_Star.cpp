@@ -120,7 +120,7 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 			if (endPoints.count(pointId)) {
 				path.roadDistance = prevRoadDistances[pointId];
 				path.walkingDistance = prevWalkDistances[pointId]+ (endPoints[pointId]);
-				float walkingTime =  hoursToMinutes((1/5)*(path.walkingDistance));
+				float walkingTime =  hoursToMinutes(prevWalkDistances[pointId]/5 + (endPoints[pointId])/5);
 				float roadTime= hoursToMinutes(prevRoadTime[pointId]);
 				path.time = walkingTime + roadTime;
 			}
