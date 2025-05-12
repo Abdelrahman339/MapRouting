@@ -33,7 +33,7 @@ unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, flo
     return result;
 }
 
-pair<int, float> getEndPoint(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
+pair<int, float> getClosetPoint(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
     int closestId = -1;
     float minD = 99999999999;
 

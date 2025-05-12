@@ -16,7 +16,7 @@ float calculateEuclideanDistance(float startPointId, float endPointX, float endP
 unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes);
 float calculateRoadTime(float distance, float speed); //for each road
 float calculateWalkingTime(float distance);//called twice (1st time => to reach start point , 2nd time => to reach end point)
-pair<int, float> getEndPoint(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes);
+pair<int, float> getClosetPoint(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes);
 
 float kilometerToMeter(float kilo);
 float meterToKilometer(float meter);
