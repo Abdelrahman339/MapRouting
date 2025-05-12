@@ -34,7 +34,6 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 {
 
 	query q = qu[0];
-	//for (int i = 0; i < q.NumOfQueries; i++) {};
 
 	priority_queue<bestPath, vector<bestPath>, greater<bestPath>> bestPathes;
 	unordered_map<int, float>prevGs;
@@ -48,11 +47,13 @@ bestPath A_Star::findPath(unordered_map<int, float> startPoints, unordered_map<i
 	function<bool(pair<int, float>, pair<int, float>)> cmp = [](pair<int, float> a, pair<int, float> b) {
 		return a.second > b.second;
 		};
+
 	priority_queue<pair<int, float>, vector<pair<int, float>>, decltype(cmp)> bestPathQ(cmp);
 	float f, g, h, prevG;
 	int counter = 0;
 	g = 0;
 	int pointId;
+
 	vector<int> best;
 	for (auto& [startPointId, distance] : startPoints)
 	{

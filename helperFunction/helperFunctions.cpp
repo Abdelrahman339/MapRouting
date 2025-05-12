@@ -33,6 +33,27 @@ unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, flo
     return result;
 }
 
+pair<int, float> getEndPoint(float targetX, float targetY, float radius, unordered_map<int, coordinates>& Nodes) {
+    int closestId = -1;
+    float minD = 99999999999;
+
+    for (const auto& pair : Nodes) {
+        int nodeId = pair.first;
+        coordinates coord = pair.second;
+        float nodeX = coord.getX_coordinate();
+        float nodeY = coord.getY_coordinate();
+        float distance = calculateEuclideanDistance(nodeId, targetX, targetY, Nodes);
+        if (distance <= radius && distance<=minD)
+            minD=distance;
+        closestId = nodeId;
+
+
+    }
+    return {closestId,minD};
+}
+
+
+
 
 float calculateRoadTime(float distance, float speed) {
     return (distance / speed);
