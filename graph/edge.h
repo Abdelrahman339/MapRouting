@@ -14,6 +14,7 @@ public:
 	int node;
 	float edgeLength;
 	float edgeSpeed;
+	float cost;//the time cost that used in all the calculation 
 	edge();
 	edge(int node,float edgeLength,float edgeSpeed);
 	int getNode();

@@ -15,6 +15,7 @@
 #include <vector>
 #include <queue>
 #include <unordered_set>
+#include <set>
 #include "../graph/edge.h"
 #include "../graph/coordinates.h" 
 #include "../helperFunction/helperFunctions.h"
@@ -31,15 +32,23 @@ public:
 
 
 	float calcF(float h, float g);
-	float calcH(int n, coordinates destination, unordered_map<int, coordinates> coordinate,float maxSpeed,float R);
+	float calcH(int startPointID, int destinationPointId, unordered_map<int, coordinates> coordinate, float maxSpeed, float R);
 	float calcG(int startN, edge endN, float prevG);
 
 	bestPath findPath(unordered_map<int, float>startPoints, unordered_map<int, float>endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed, vector<query> q);
 
-
+	vector<int> A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, float maxSpeed, float R, unordered_map<int, coordinates>);
 
 };
 
 
+struct NodeInfo {
+	int node;
+	float fCost;
 
+	// Priority queue comparator (min-heap)
+	bool operator>(const NodeInfo& other) const {
+		return fCost > other.fCost;
+	}
+};
 
