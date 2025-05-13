@@ -173,25 +173,41 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 {
 	priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
 	priorityQ.push({ sourcePointID, 0 });
-
+	
 
 	unordered_map<int, int> thePath;
 	set<int> visited;
 	unordered_map<int, float> gCosts;
+	//Other Ouput Calculations
+	unordered_map<int, float> totalDistances;
+	unordered_map<int, float> walkDistances;
+	unordered_map<int, float> roadDistances;
+
+	unordered_map<int, float> totalTime;
+
+	
+	walkDistances[sourcePointID] = 0;
+	roadDistances[sourcePointID] = 0;
+	totalTime[sourcePointID] = 0;
 
 	gCosts[sourcePointID] = 0;
 
 	while (!priorityQ.empty())
 	{
+		bestPath p;
 		int currentnodeId = priorityQ.top().node;
 		priorityQ.pop();
 		if (currentnodeId == destinationPointID)
 		{
 			vector<int> path;
+	
 			for (int node = destinationPointID; node != sourcePointID; node = thePath[node])
 				path.push_back(node);
 			path.push_back(sourcePointID);
 			reverse(path.begin(), path.end());
+			
+			p.walkingDistance = walkDistances[currentnodeId];
+			p.roadDistance = roadDistances[currentnodeId];
 			return path;
 		}
 
@@ -201,6 +217,8 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 
 		vector<edge> neighbors = graph[currentnodeId];
 
+		
+
 		for (edge neighbor : neighbors)
 		{
 			//calc the g , h and f for each neighbor 
@@ -208,11 +226,33 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 
 			if (!gCosts.count(neighbor.node) || tempG < gCosts[neighbor.node])
 			{
+				
 				thePath[neighbor.node] = currentnodeId;
 				gCosts[neighbor.node] = tempG;
+				totalDistances[neighbor.node] = totalDistances[currentnodeId] + neighbor.edgeLength;
+
+
+				
+				if (currentnodeId == sourcePointID)
+					walkDistances[neighbor.node] = neighbor.edgeLength; 
+
+				else if (neighbor.node == destinationPointID) 
+					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength; 
+
+				else
+					walkDistances[neighbor.node] = walkDistances[currentnodeId];
+				
+
+				if (currentnodeId != sourcePointID && neighbor.node != destinationPointID)
+					roadDistances[neighbor.node] = roadDistances[currentnodeId] + neighbor.edgeLength; 
+				else
+					roadDistances[neighbor.node] = roadDistances[currentnodeId];
+				
+
 				float H = calcH(sourcePointID,destinationPointID, coordinate,maxSpeed,R);
 				float F = calcF(H, tempG);
 				priorityQ.push({ neighbor.node,F });
+				
 			}
 
 		}

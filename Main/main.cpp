@@ -21,11 +21,11 @@ int main() {
 	unordered_map<int, coordinates> coor;
 	unordered_map<int, coordinates> copyCoor;
 	vector<query> queries;
-	bestPath bestPath;
+	bestPath p;
 	float maxSpeed = -1;
 	file f;
-	coor = f.readFile("map3", "[1] Sample Cases/input", graph, maxSpeed);
-	queries = f.readQuery("[1] Sample Cases/input/queries3");
+	coor = f.readFile("map2", "[1] Sample Cases/input", graph, maxSpeed);
+	queries = f.readQuery("[1] Sample Cases/input/queries2");
 
 
 	int sourcePointId;
@@ -54,11 +54,11 @@ int main() {
 		//a for loop will be added to display for each query
 		for (float node : bestPath)
 			cout << node << " ";
-		cout << endl;/*
-		cout << truncateTwoDecimals(bestPath.time) << " mins" << endl;
-		cout << truncateTwoDecimals(bestPath.roadDistance + bestPath.walkingDistance) << " km" << endl;
-		cout << truncateTwoDecimals(bestPath.walkingDistance) << " km" << endl;
-		cout << truncateTwoDecimals(bestPath.roadDistance) << " km" << endl;*/
+		cout << endl;
+		//cout << truncateTwoDecimals(bestPath.time) << " mins" << endl;
+		//cout << truncateTwoDecimals(bestPath.roadDistance + bestPath.walkingDistance) << " km" << endl;
+		//cout << truncateTwoDecimals(bestPath.walkingDistance) << " km" << endl;
+		cout << truncateTwoDecimals(p.roadDistance) << " km" << endl;
 		cout << endl;
 	}
 
