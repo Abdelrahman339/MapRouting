@@ -178,7 +178,7 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 	unordered_map<int, int> thePath;
 	set<int> visited;
 	unordered_map<int, float> gCosts;
-	//Other Ouput Calculations
+	
 	
 	unordered_map<int, float> walkDistances;
 	unordered_map<int, float> roadDistances;

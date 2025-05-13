@@ -1,5 +1,7 @@
 #include <iostream>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 //files
 #include "../File/File.h" 
@@ -16,6 +18,8 @@ using namespace std;
 int main() {
 
 
+
+
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, vector<edge>> copyGraph;
 	unordered_map<int, coordinates> coor;
@@ -27,6 +31,8 @@ int main() {
 	coor = f.readFile("map2", "[1] Sample Cases/input", graph, maxSpeed);
 	queries = f.readQuery("[1] Sample Cases/input/queries2");
 
+	//Input/Output after reading the query time starts
+	auto startIO = high_resolution_clock::now();
 
 	int sourcePointId;
 	int destinationPointID;
@@ -46,21 +52,26 @@ int main() {
 
 
 		A_Star path;
-		//bestPath = path.findPath(startPoints, endPoints, queries[i].destCoordinate, graph, coordinates, maxSpeed, queries);
 		vector<int> bestPath = path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor,p);
 
 
 
 		//a for loop will be added to display for each query
-		for (float node : bestPath)
+		for (int node : bestPath)
 			cout << node << " ";
 		cout << endl;
-		cout << truncateTwoDecimals(p.time) << " mins" << endl;
-		cout << truncateTwoDecimals(p.roadDistance + p.walkingDistance) << " km" << endl;
-		cout << truncateTwoDecimals(p.walkingDistance) << " km" << endl;
-		cout << truncateTwoDecimals(p.roadDistance) << " km" << endl;
+		cout << fixed << setprecision(2)<< (p.time) << " mins" << endl;
+		cout << fixed << setprecision(2)<<(p.roadDistance + p.walkingDistance) << " km" << endl;
+		cout << fixed << setprecision(2)<<(p.walkingDistance) << " km" << endl;
+		cout << fixed << setprecision(2)<<(p.roadDistance) << " km" << endl;
 		cout << endl;
 	}
+	auto stopIO = high_resolution_clock::now();
+	double elapsedTimeWithIO = duration<float, milli>(stopIO - startIO).count();
+
+	cout << "Not added yet" << " ms" << endl;
+	cout << endl;
+	cout <<elapsedTimeWithIO<<" ms"<<endl;
 
 	return 0;
 }
