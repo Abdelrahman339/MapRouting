@@ -20,6 +20,29 @@ float A_Star::calcH(int startPointID, int destinationPointId, unordered_map<int,
 
 };
 
+float A_Star::calcHForEndpoint(int nodeId, const unordered_map<int, float>& endPoints,const unordered_map<int, coordinates>& coordinate,float maxSpeed, float R) {
+	float minH = numeric_limits<float>::max();
+
+	for (const auto& [endId, _] : endPoints) {
+		float distance = calculateEuclideanDistance(nodeId,coordinate.at(endId).x_coordinate,coordinate.at(endId).y_coordinate,coordinate);
+		float currentH;
+		if (distance < R) {
+			currentH = hoursToMinutes(distance / walkingSpeed);
+		}
+		else {
+			float carTime = hoursToMinutes((distance - R) / maxSpeed);
+			float walkTime = hoursToMinutes(R / walkingSpeed);
+			currentH = carTime + walkTime;
+		}
+
+		if (currentH < minH) {
+			minH = currentH;
+		}
+	}
+
+	return minH;
+}
+
 float A_Star::calcG(int startN, edge endN, float prevG) {
 
 	float roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeed);
