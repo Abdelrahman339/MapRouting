@@ -182,12 +182,14 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 	
 	unordered_map<int, float> walkDistances;
 	unordered_map<int, float> roadDistances;
-	unordered_map<int, float> totalTime;
+	unordered_map<int, float> walkTime;
+	unordered_map<int, float> roadTime;
 
 	
 	walkDistances[sourcePointID] = 0;
 	roadDistances[sourcePointID] = 0;
-	totalTime[sourcePointID] = 0;
+	roadTime[sourcePointID] = 0;
+	walkTime[sourcePointID] = 0;
 
 	gCosts[sourcePointID] = 0;
 
@@ -207,7 +209,9 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 			
 			p.walkingDistance = walkDistances[currentnodeId];
 			p.roadDistance = roadDistances[currentnodeId];
-			p.time = totalTime[currentnodeId];
+			float roadInMinutes= hoursToMinutes(roadTime[currentnodeId]);
+			float walkingInMinutes = walkTime[currentnodeId];
+			p.time = walkingInMinutes + roadInMinutes;
 			return path;
 		}
 
@@ -233,25 +237,27 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 
 
 				
-				if (currentnodeId == sourcePointID)
-					walkDistances[neighbor.node] = neighbor.edgeLength; 
-
-				else if (neighbor.node == destinationPointID) {
-					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength;
-					totalTime[neighbor.node] = hoursToMinutes(walkDistances[currentnodeId]/5+ neighbor.edgeLength/5);
-					
+				if (currentnodeId == sourcePointID) {
+					walkDistances[neighbor.node] = neighbor.edgeLength;
+					walkTime[neighbor.node] = walkTime[currentnodeId] + calculateWalkingTime(kilometerToMeter(neighbor.edgeLength));
 				}
-				else
+				else if (neighbor.node == destinationPointID) {
+					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength;	
+					walkTime[neighbor.node] = walkTime[currentnodeId] + calculateWalkingTime(kilometerToMeter(neighbor.edgeLength));
+				}
+				else {
 					walkDistances[neighbor.node] = walkDistances[currentnodeId];
-				
+					walkTime[neighbor.node] = walkTime[currentnodeId];
+				}
 
 				if (currentnodeId != sourcePointID && neighbor.node != destinationPointID) {
 					roadDistances[neighbor.node] = roadDistances[currentnodeId] + neighbor.edgeLength;
-					totalTime[neighbor.node] = totalTime[currentnodeId] + calculateRoadTime(neighbor.edgeLength, neighbor.edgeSpeed);
+					roadTime[neighbor.node] = roadTime[currentnodeId] + calculateRoadTime(neighbor.edgeLength, neighbor.edgeSpeed);
 				}
-				else
+				else {
 					roadDistances[neighbor.node] = roadDistances[currentnodeId];
-				
+					roadTime[neighbor.node] = roadTime[currentnodeId];
+				}
 
 				float H = calcH(sourcePointID,destinationPointID, coordinate,maxSpeed,R);
 				float F = calcF(H, tempG);
