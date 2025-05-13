@@ -152,20 +152,20 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 	priorityQ.push({ sourcePointID, 0 });
 
 
-	unordered_map<int, int> cameFrom; // to reconstruct path
+	unordered_map<int, int> thePath;
 	set<int> visited;
-	unordered_map<int, float> gCost;
+	unordered_map<int, float> gCosts;
 
-	gCost[sourcePointID] = 0;
+	gCosts[sourcePointID] = 0;
 
 	while (!priorityQ.empty())
 	{
 		int currentnodeId = priorityQ.top().node;
-		priorityQ = priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>>();
+		priorityQ.pop();
 		if (currentnodeId == destinationPointID)
 		{
 			vector<int> path;
-			for (int node = destinationPointID; node != sourcePointID; node = cameFrom[node])
+			for (int node = destinationPointID; node != sourcePointID; node = thePath[node])
 				path.push_back(node);
 			path.push_back(sourcePointID);
 			reverse(path.begin(), path.end());
@@ -181,12 +181,12 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 		for (edge neighbor : neighbors)
 		{
 			//calc the g , h and f for each neighbor 
-			float tempG = calcG(currentnodeId, neighbor, gCost[currentnodeId]);
+			float tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId]);
 
-			if (!gCost.count(neighbor.node) || tempG < gCost[neighbor.node])
+			if (!gCosts.count(neighbor.node) || tempG < gCosts[neighbor.node])
 			{
-				cameFrom[neighbor.node] = currentnodeId;
-				gCost[neighbor.node] = tempG;
+				thePath[neighbor.node] = currentnodeId;
+				gCosts[neighbor.node] = tempG;
 				float H = calcH(sourcePointID,destinationPointID, coordinate,maxSpeed,R);
 				float F = calcF(H, tempG);
 				priorityQ.push({ neighbor.node,F });
