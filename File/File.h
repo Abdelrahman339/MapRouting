@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <iomanip>
+
 
 
 using namespace std;
@@ -18,7 +20,7 @@ class file {
 
 public:
 	unordered_map<int, coordinates> readFile(string fileName,string typeOftest,unordered_map<int,vector<edge>>&graph,float &maxSpeed);
-	unordered_map<int, coordinates> writeFile(string fileName, string typeOftest);
+	void writeFile(string fileName,vector<bestPath> quries);
 
 	vector<query> readQuery(string fileName);
 

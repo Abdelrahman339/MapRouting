@@ -25,14 +25,15 @@ int main() {
 	unordered_map<int, coordinates> coor;
 	unordered_map<int, coordinates> copyCoor;
 	vector<query> queries;
-	bestPath p;
+	vector<bestPath> p;
 	float maxSpeed = -1;
 	file f;
+
+	auto startIO = high_resolution_clock::now();
 	coor = f.readFile("map2", "[1] Sample Cases/input", graph, maxSpeed);
 	queries = f.readQuery("[1] Sample Cases/input/queries2");
 
 	//Input/Output after reading the query time starts
-	auto startIO = high_resolution_clock::now();
 
 	int sourcePointId;
 	int destinationPointID;
@@ -41,37 +42,42 @@ int main() {
 
 		copyGraph = graph;
 		copyCoor = coor;
-		unordered_map<int, float> startPoints = getNodesWithinRadius(q.startCoordinate.x_coordinate,q.startCoordinate.y_coordinate,q.R, copyCoor);
+		unordered_map<int, float> startPoints = getNodesWithinRadius(q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate, q.R, copyCoor);
 		unordered_map<int, float> endPoints = getNodesWithinRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R, copyCoor);
 		//add the start point and the distenation point in the graph for each qeuery
 		sourcePointId = addNode(copyGraph, startPoints);
 		destinationPointID = addNode(copyGraph, endPoints);
-		addNode(copyCoor,q.startCoordinate);
-		addNode(copyCoor,q.destCoordinate);
-		
-
+		addNode(copyCoor, q.startCoordinate);
+		addNode(copyCoor, q.destCoordinate);
 
 		A_Star path;
-		vector<int> bestPath = path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor,p);
+		p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor));
 
-
-
-		//a for loop will be added to display for each query
-		for (int node : bestPath)
-			cout << node << " ";
-		cout << endl;
-		cout << fixed << setprecision(2)<< (p.time) << " mins" << endl;
-		cout << fixed << setprecision(2)<<(p.roadDistance + p.walkingDistance) << " km" << endl;
-		cout << fixed << setprecision(2)<<(p.walkingDistance) << " km" << endl;
-		cout << fixed << setprecision(2)<<(p.roadDistance) << " km" << endl;
-		cout << endl;
 	}
+
+	f.writeFile("Output/output1.txt", p);
+
 	auto stopIO = high_resolution_clock::now();
 	double elapsedTimeWithIO = duration<float, milli>(stopIO - startIO).count();
-
 	cout << "Not added yet" << " ms" << endl;
 	cout << endl;
-	cout <<elapsedTimeWithIO<<" ms"<<endl;
+	cout << elapsedTimeWithIO << " ms" << endl;
+
+	//cout << p.size();
+	//	//a for loop will be added to display for each query
+	//	while (!p.nodes.empty())
+	//	{
+	//		cout << p.nodes.top() << " ";
+	//		p.nodes.pop();
+	//	}
+	//	cout << endl;
+	//	cout << fixed << setprecision(2) << (p.time) << " mins" << endl;
+	//	cout << fixed << setprecision(2) << (p.totalDistance) << " km" << endl;
+	//	cout << fixed << setprecision(2) << (p.walkingDistance) << " km" << endl;
+	//	cout << fixed << setprecision(2) << (p.roadDistance) << " km" << endl;
+	//	cout << endl;
+	//}
+
 
 	return 0;
 }

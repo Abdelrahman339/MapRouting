@@ -82,3 +82,37 @@ vector<query> file::readQuery(string fileName)
 
 	return queries;
 };
+
+void file::writeFile(string fileName, vector<bestPath> quries)
+{
+	ofstream file(fileName);
+
+	if (!file.is_open()) {
+		cerr << "Error opening file!" << endl;
+		return;
+	}
+
+	for (bestPath path : quries) {
+
+		bool first = true;
+		while (!path.nodes.empty()) {
+			if (!first) file << " ";  
+			file << path.nodes.top();
+			path.nodes.pop();        
+			first = false;
+		}
+		file << "\n";
+
+		// Write time
+		file << fixed << setprecision(2) << path.time << " mins\n";
+
+		// Write distances
+		file << path.totalDistance << " km\n";
+		file << path.walkingDistance << " km\n";
+		file << path.roadDistance<< " km\n";
+
+		file << "\n";
+	}
+
+	file.close();
+}
