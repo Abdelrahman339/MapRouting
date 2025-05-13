@@ -179,10 +179,9 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 	set<int> visited;
 	unordered_map<int, float> gCosts;
 	//Other Ouput Calculations
-	unordered_map<int, float> totalDistances;
+	
 	unordered_map<int, float> walkDistances;
 	unordered_map<int, float> roadDistances;
-
 	unordered_map<int, float> totalTime;
 
 	
@@ -208,6 +207,7 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 			
 			p.walkingDistance = walkDistances[currentnodeId];
 			p.roadDistance = roadDistances[currentnodeId];
+			p.time = totalTime[currentnodeId];
 			return path;
 		}
 
@@ -229,22 +229,26 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 				
 				thePath[neighbor.node] = currentnodeId;
 				gCosts[neighbor.node] = tempG;
-				totalDistances[neighbor.node] = totalDistances[currentnodeId] + neighbor.edgeLength;
+				
 
 
 				
 				if (currentnodeId == sourcePointID)
 					walkDistances[neighbor.node] = neighbor.edgeLength; 
 
-				else if (neighbor.node == destinationPointID) 
-					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength; 
-
+				else if (neighbor.node == destinationPointID) {
+					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength;
+					totalTime[neighbor.node] = hoursToMinutes(walkDistances[currentnodeId]/5+ neighbor.edgeLength/5);
+					
+				}
 				else
 					walkDistances[neighbor.node] = walkDistances[currentnodeId];
 				
 
-				if (currentnodeId != sourcePointID && neighbor.node != destinationPointID)
-					roadDistances[neighbor.node] = roadDistances[currentnodeId] + neighbor.edgeLength; 
+				if (currentnodeId != sourcePointID && neighbor.node != destinationPointID) {
+					roadDistances[neighbor.node] = roadDistances[currentnodeId] + neighbor.edgeLength;
+					totalTime[neighbor.node] = totalTime[currentnodeId] + calculateRoadTime(neighbor.edgeLength, neighbor.edgeSpeed);
+				}
 				else
 					roadDistances[neighbor.node] = roadDistances[currentnodeId];
 				

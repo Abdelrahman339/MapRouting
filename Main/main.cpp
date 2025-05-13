@@ -58,7 +58,7 @@ int main() {
 		//cout << truncateTwoDecimals(bestPath.time) << " mins" << endl;
 		//cout << truncateTwoDecimals(bestPath.roadDistance + bestPath.walkingDistance) << " km" << endl;
 		//cout << truncateTwoDecimals(bestPath.walkingDistance) << " km" << endl;
-		cout << truncateTwoDecimals(p.roadDistance) << " km" << endl;
+		//cout << truncateTwoDecimals(bestPath.roadDistance) << " km" << endl;
 		cout << endl;
 	}
 
