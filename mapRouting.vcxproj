@@ -26,6 +26,7 @@
     <ClCompile Include="File\File.cpp" />
     <ClCompile Include="helperFunction\helperFunctions.cpp" />
     <ClCompile Include="Main\main.cpp" />
+    <ClCompile Include="mapVisualization\visual.cpp" />
     <ClCompile Include="query\query.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -39,6 +39,9 @@
     <ClCompile Include="bestPath\bestPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mapVisualization\visual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="A_Star\A_Star.h">
