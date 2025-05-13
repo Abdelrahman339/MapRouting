@@ -36,9 +36,7 @@ public:
 	float calcG(int startN, edge endN, float prevG);
 	float calcHForEndpoint(int nodeId, const unordered_map<int, float>& endPoints, const unordered_map<int, coordinates>& coordinate, float maxSpeed, float R);
 
-	bestPath findPath(unordered_map<int, float>startPoints, unordered_map<int, float>endPoints, coordinates DestPoint, unordered_map<int, vector<edge>> graph, unordered_map<int, coordinates> coordinate,float maxSpeed, vector<query> q);
-
-	vector<int> A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, float maxSpeed, float R, unordered_map<int, coordinates>);
+	vector<int> A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, float maxSpeed, float R, unordered_map<int, coordinates>, bestPath &p);
 
 };
 

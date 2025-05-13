@@ -47,7 +47,7 @@ int main() {
 
 		A_Star path;
 		//bestPath = path.findPath(startPoints, endPoints, queries[i].destCoordinate, graph, coordinates, maxSpeed, queries);
-		vector<int> bestPath = path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor);
+		vector<int> bestPath = path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor,p);
 
 
 
@@ -55,10 +55,10 @@ int main() {
 		for (float node : bestPath)
 			cout << node << " ";
 		cout << endl;
-		//cout << truncateTwoDecimals(bestPath.time) << " mins" << endl;
-		//cout << truncateTwoDecimals(bestPath.roadDistance + bestPath.walkingDistance) << " km" << endl;
-		//cout << truncateTwoDecimals(bestPath.walkingDistance) << " km" << endl;
-		//cout << truncateTwoDecimals(bestPath.roadDistance) << " km" << endl;
+		cout << truncateTwoDecimals(p.time) << " mins" << endl;
+		cout << truncateTwoDecimals(p.roadDistance + p.walkingDistance) << " km" << endl;
+		cout << truncateTwoDecimals(p.walkingDistance) << " km" << endl;
+		cout << truncateTwoDecimals(p.roadDistance) << " km" << endl;
 		cout << endl;
 	}
 

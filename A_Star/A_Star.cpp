@@ -169,7 +169,7 @@ float A_Star::calcG(int startN, edge endN, float prevG) {
 
 
 
-vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID,float maxSpeed,float R, unordered_map<int, coordinates>coordinate)
+vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID,float maxSpeed,float R, unordered_map<int, coordinates>coordinate, bestPath& p)
 {
 	priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
 	priorityQ.push({ sourcePointID, 0 });
@@ -195,7 +195,7 @@ vector<int> A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID,
 
 	while (!priorityQ.empty())
 	{
-		bestPath p;
+		
 		int currentnodeId = priorityQ.top().node;
 		priorityQ.pop();
 		if (currentnodeId == destinationPointID)
