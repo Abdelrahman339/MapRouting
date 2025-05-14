@@ -28,6 +28,7 @@
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="mapVisualization\visual.cpp" />
     <ClCompile Include="query\query.cpp" />
+    <ClCompile Include="Test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="A_Star\A_Star.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="File\File.h" />
     <ClInclude Include="helperFunction\helperFunctions.h" />
     <ClInclude Include="query\query.h" />
+    <ClInclude Include="Test\test.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -13,6 +13,7 @@ private:
 public:
 	int node;
 	float edgeLength;
+	vector<float> edgeSpeeds;
 	float edgeSpeed;
 	float cost;//the time cost that used in all the calculation 
 	edge();

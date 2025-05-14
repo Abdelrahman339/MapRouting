@@ -19,7 +19,9 @@ class file {
 
 
 public:
-	unordered_map<int, coordinates> readFile(string fileName,string typeOftest,unordered_map<int,vector<edge>>&graph,float &maxSpeed);
+
+	unordered_map<int, coordinates> readFile(string fileName,  unordered_map<int, vector<edge>>& graph, float& maxSpeed);
+	unordered_map<int, coordinates> readFile(string fileName,unordered_map<int,vector<edge>>&graph,float &maxSpeed, float& Speed_Interval, int& speedSize);
 	void writeFile(string fileName,vector<bestPath> quries);
 
 	vector<query> readQuery(string fileName);

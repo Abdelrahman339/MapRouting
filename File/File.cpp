@@ -1,13 +1,11 @@
 #include "File.h"
 
 
-
-unordered_map<int, coordinates> file::readFile(string fileName, string typeOftest, unordered_map<int, vector<edge>>& graph, float& maxSpeed) {
+unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, float& maxSpeed) {
 
 	//file info
-	string dir = "Data/testCases/";
-	dir = dir + typeOftest + "/";
-	string file = dir + fileName + ".txt";
+
+	string file = fileName;
 	ifstream infile(file);
 	if (!infile) {
 		cout << "Failed to open file.\n";
@@ -54,12 +52,67 @@ unordered_map<int, coordinates> file::readFile(string fileName, string typeOftes
 	}
 	return Nodes;
 }
+unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, float& maxSpeed, float& Speed_Interval,int&speedSize) {
+
+	//file info
+	string file = fileName;
+	ifstream infile(file);
+	if (!infile) {
+		cout << "Failed to open file.\n";
+	}
+
+
+	//coordinates of each node 
+	int numberOfnodes;
+	unordered_map <int, coordinates> Nodes;
+	infile >> numberOfnodes;
+
+	int node;
+	float x_coordinate, y_coordinate;
+
+
+
+	for (int i = 0; i < numberOfnodes; ++i)
+	{
+		infile >> node >> x_coordinate >> y_coordinate;
+		coordinates c;
+		c.setX_coordinate(x_coordinate);
+		c.setY_coordinate(y_coordinate);
+		Nodes[node] = c;
+	}
+
+
+	//graph construction 
+	int numberOfEdges;
+	infile >> numberOfEdges >> speedSize >> Speed_Interval;
+	int temp;
+	int vertex;
+	for (int i = 0; i < numberOfEdges; ++i) {
+		edge e;
+		infile >> vertex >> e.node >> e.edgeLength;
+		for (int i = 0; i < speedSize; ++i)
+		{
+			float speed;
+			infile >> speed;
+			e.edgeSpeeds.push_back(speed);
+
+			if (speed > maxSpeed)
+				maxSpeed = speed;
+		}
+		graph[vertex].push_back(e);
+		temp = vertex;
+		vertex = e.node;
+		e.node = temp;
+		graph[vertex].push_back(e);
+
+
+	}
+	return Nodes;
+}
 
 vector<query> file::readQuery(string fileName)
 {
-	//file info
-	string dir = "Data/testCases/";
-	string file = dir + fileName + ".txt";
+	string file = fileName;
 	ifstream infile(file);
 	if (!infile) {
 		cout << "Failed to open file.\n";
@@ -85,6 +138,7 @@ vector<query> file::readQuery(string fileName)
 
 void file::writeFile(string fileName, vector<bestPath> quries)
 {
+	fileName = "Output/" + fileName;
 	ofstream file(fileName);
 
 	if (!file.is_open()) {
@@ -96,9 +150,9 @@ void file::writeFile(string fileName, vector<bestPath> quries)
 
 		bool first = true;
 		while (!path.nodes.empty()) {
-			if (!first) file << " ";  
+			if (!first) file << " ";
 			file << path.nodes.top();
-			path.nodes.pop();        
+			path.nodes.pop();
 			first = false;
 		}
 		file << "\n";
@@ -109,7 +163,7 @@ void file::writeFile(string fileName, vector<bestPath> quries)
 		// Write distances
 		file << path.totalDistance << " km\n";
 		file << path.walkingDistance << " km\n";
-		file << path.roadDistance<< " km\n";
+		file << path.roadDistance << " km\n";
 
 		file << "\n";
 	}
