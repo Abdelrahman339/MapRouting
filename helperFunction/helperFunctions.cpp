@@ -90,7 +90,10 @@ int addNode(unordered_map<int, vector<edge>>& graph, unordered_map<int, float>po
 		edge edge;
 		edge.node = ponitID;
 		edge.edgeSpeed = 5;
+		for (int i = 0; i <graph[0][0].edgeSpeeds.size(); i++)
+		{
 		edge.edgeSpeeds.push_back(5);
+		}
 		edge.edgeLength = distance;
 		edge.cost = 5 / distance;
 		graph[nodeId].push_back(edge);
