@@ -30,7 +30,7 @@ void KDTree::radiusSearch(KDNode* node, float x, float y, float radiusSquared, u
     float distSq = dx * dx + dy * dy;
 
     if (distSq <= radiusSquared) {
-        result[node->nodeId] = distSq;
+        result[node->nodeId] = sqrt(distSq);
     }
 
     int axis = depth % 2;
