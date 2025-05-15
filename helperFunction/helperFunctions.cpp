@@ -5,7 +5,7 @@ using namespace std;
 
 
 
-double calculateEuclideanDistance(int startPointId, int goalPointId, unordered_map<int, coordinates> Nodes) {
+double calculateEuclideanDistance(int startPointId, int goalPointId, const vector <coordinates>& Nodes) {
 	double startX = Nodes[startPointId].x_coordinate;
 	double startY = Nodes[startPointId].y_coordinate;
 	double goalX = Nodes[goalPointId].x_coordinate;
@@ -17,7 +17,7 @@ double calculateEuclideanDistance(int startPointId, int goalPointId, unordered_m
 	return sqrt(X*X + Y*Y);
 }
 
-double calculateEuclideanDistance(int startPointId, double destx, double destY, unordered_map<int, coordinates> Nodes)
+double calculateEuclideanDistance(int startPointId, double destx, double destY, const vector <coordinates>& Nodes)
 {
 	double startX = Nodes[startPointId].x_coordinate;
 	double goalY = Nodes[startPointId].y_coordinate;
@@ -67,25 +67,25 @@ unordered_map<int, double> getNodesWithinRadiusGrid(double targetX,double target
 	return result;
 }
 
-unordered_map<int, double> getNodesWithinRadius(double targetX, double targetY, double radius, unordered_map<int, coordinates> Nodes) {
-
-	unordered_map<int, double>result;
-	//iterate over all nodes => N-1
-	//for now O(Nodes) , may be changed later
-
-	for (const auto& pair : Nodes) {
-		int nodeId = pair.first;
-		coordinates coord = pair.second;
-		double nodeX = coord.getX_coordinate();
-		double nodeY = coord.getY_coordinate();
-		double distance = calculateEuclideanDistance(nodeId, targetX, targetY, Nodes);
-		if (distance <= radius)
-			result[nodeId] = distance;
-
-
-	}
-	return result;
-}
+//unordered_map<int, double> getNodesWithinRadius(double targetX, double targetY, double radius, unordered_map<int, coordinates> Nodes) {
+//
+//	unordered_map<int, double>result;
+//	//iterate over all nodes => N-1
+//	//for now O(Nodes) , may be changed later
+//
+//	for (const auto& pair : Nodes) {
+//		int nodeId = pair.first;
+//		coordinates coord = pair.second;
+//		double nodeX = coord.getX_coordinate();
+//		double nodeY = coord.getY_coordinate();
+//		double distance = calculateEuclideanDistance(nodeId, targetX, targetY, Nodes);
+//		if (distance <= radius)
+//			result[nodeId] = distance;
+//
+//
+//	}
+//	return result;
+//}
 
 double calculateRoadTime(double distance, double speed) {
 	return (distance / speed);
@@ -136,10 +136,10 @@ int addNode(unordered_map<int, vector<edge>>& graph,const unordered_map<int, dou
 	return nodeId;
 };
 
-void addNode(unordered_map<int, coordinates>& coordinate, coordinates coor)
+void addNode( vector <coordinates>& coordinate, coordinates coor)
 {
 	int coorId = coordinate.size();
-	coordinate[coorId] = coor;
+	coordinate[coorId]=coor;
 };
 double roundUp(double number) 
 {

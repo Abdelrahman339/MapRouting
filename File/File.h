@@ -20,7 +20,7 @@ class file {
 
 public:
 
-	void readFile(string fileName,  unordered_map<int, vector<edge>>& graph, double& maxSpeed,unordered_map <int, coordinates>& Nodes);
+	void readFile(string fileName,  unordered_map<int, vector<edge>>& graph, double& maxSpeed,vector<coordinates>& Nodes);
 	void readFile(string fileName,unordered_map<int,vector<edge>>&graph,double &maxSpeed, double& Speed_Interval, int& speedSize, unordered_map <int, coordinates>& Nodes);
 	void writeFile(string fileName,vector<bestPath> quries);
 	string getCellKey(double x, double y, double cellSize);

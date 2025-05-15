@@ -1,20 +1,23 @@
 #include "KDTree.h"
 #include <algorithm>
 
-KDNode* KDTree::build(vector<pair<int, coordinates>>& points, int depth) {
-    if (points.empty()) return nullptr;
+KDNode* KDTree::build(vector<int>& indices, int depth) {
+    if (indices.empty()) return nullptr;
 
     int axis = depth % 2;
-    sort(points.begin(), points.end(), [axis](auto& a, auto& b) {
-        return axis == 0 ? a.second.x_coordinate < b.second.x_coordinate
-            : a.second.y_coordinate < b.second.y_coordinate;
+
+    std::sort(indices.begin(), indices.end(), [&](int a, int b) {
+        return axis == 0 ?
+            (*coordsRef)[a].x_coordinate < (*coordsRef)[b].x_coordinate :
+            (*coordsRef)[a].y_coordinate < (*coordsRef)[b].y_coordinate;
         });
 
-    int mid = points.size() / 2;
-    KDNode* node = new KDNode{ points[mid].first, points[mid].second };
+    int mid = indices.size() / 2;
+    int midId = indices[mid];
+    KDNode* node = new KDNode{ midId, (*coordsRef)[midId] };
 
-    vector<pair<int, coordinates>> left(points.begin(), points.begin() + mid);
-    vector<pair<int, coordinates>> right(points.begin() + mid + 1, points.end());
+    std::vector<int> left(indices.begin(), indices.begin() + mid);
+    std::vector<int> right(indices.begin() + mid + 1, indices.end());
 
     node->left = build(left, depth + 1);
     node->right = build(right, depth + 1);
@@ -49,12 +52,14 @@ void KDTree::radiusSearch(KDNode* node, double x, double y, double radiusSquared
     }
 }
 
-void KDTree::buildTree(const unordered_map<int, coordinates>& nodes) {
-    vector<pair<int, coordinates>> points;
-    for (const auto& [id, coord] : nodes) {
-        points.emplace_back(id, coord);
-    }
-    root = build(points, 0);
+void KDTree::buildTree(const std::vector<coordinates>& coords) {
+    this->coordsRef = &coords;
+
+    int N = coords.size();
+    vector<int> indices(N);
+    for (int i = 0; i < N; ++i) indices[i] = i;
+
+    root = build(indices, 0);
 }
 
 unordered_map<int, double> KDTree::queryRadius(double x, double y, double radius) {

@@ -2,7 +2,7 @@
 
 
 
-void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, double& maxSpeed, unordered_map <int, coordinates> &Nodes){
+void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, double& maxSpeed, vector<coordinates> &Nodes){
 
 	//file info
 
@@ -16,12 +16,11 @@ void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, do
 	//coordinates of each node 
 	int numberOfnodes;
 	infile >> numberOfnodes;
+	Nodes.reserve(numberOfnodes);
 
 	int node;
 	double x_coordinate, y_coordinate;
 
-	unordered_map<string, vector<int>> spatialGrid;
-	double cellSize;
 
 	for (int i = 0; i < numberOfnodes; ++i)
 	{
@@ -29,7 +28,7 @@ void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, do
 		coordinates c;
 		c.setX_coordinate(x_coordinate);
 		c.setY_coordinate(y_coordinate);
-		Nodes[node] = c;
+		Nodes.push_back(c);
 	
 	}
 

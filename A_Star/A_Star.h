@@ -32,7 +32,7 @@ public:
 
 
 	double calcF(double h, double g);
-	double calcH(int startPointID, int destinationPointId, unordered_map<int, coordinates> coordinate, double maxSpeed, double R);
+	double calcH(int startPointID, int destinationPointId, const vector <coordinates> &coordinate, double maxSpeed, double R);
 	double calcG(int startN, edge endN, double prevG,double index);
 	double calcG(int startN, edge endN, double prevG);
 
@@ -40,7 +40,7 @@ public:
 
 	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>, double timeIntervel, int speedSize);
 	
-	bestPath A(const unordered_map<int, vector<edge>>& graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, const unordered_map<int, coordinates>&);
+	bestPath A(const unordered_map<int, vector<edge>>& graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, const vector<coordinates>&);
 
 };
 
