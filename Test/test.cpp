@@ -50,8 +50,12 @@ void test::doTest(char choice)
 		copyCoor = coor;
 
 
-		unordered_map<int, double> startPoints = kd.queryRadius(q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate, q.R);
-		unordered_map<int, double> endPoints = kd.queryRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R);
+		vector<pair<int, double>> startPoints, endPoints;
+		startPoints.reserve(128);
+		endPoints.reserve(128);
+		double radiusSquared = q.R * q.R;
+		kd.radiusSearch(kd.root, q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate,
+			q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, radiusSquared, startPoints, endPoints, 0);
 		//add the start point and the distenation point in the graph for each qeuery
 		sourcePointId = addNode(copyGraph, startPoints);
 		destinationPointID = addNode(copyGraph, endPoints);
@@ -61,7 +65,8 @@ void test::doTest(char choice)
 
 		A_Star path;
 		p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor));
-
+		startPoints.clear();
+		endPoints.clear();
 	}
 
 	auto stopIO = high_resolution_clock::now();

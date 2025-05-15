@@ -13,15 +13,27 @@ struct KDNode {
 };
 
 class KDTree {
-private:
-	KDNode* root;
-	const std::vector<coordinates>* coordsRef;
-
-	KDNode* build(vector < int > &points, int depth);
-	void radiusSearch(KDNode* node, double x, double y, double radiusSquared, unordered_map<int, double>& result, int depth);
 
 public:
+	KDNode* root;
+	const vector<coordinates>* coordsRef;
+
+	KDNode* build(vector < int > &points, int depth);
+	
+	void radiusSearch(
+		KDNode* node,
+		double x1, double y1,
+		double x2, double y2,
+		double radiusSquared,
+		vector<std::pair<int, double>>& startPoints,
+		vector<std::pair<int, double>>& endPoints,int depth);
 	KDTree() : root(nullptr) {}
-	void buildTree(const std::vector<coordinates>& coords);
-	unordered_map<int, double> queryRadius(double x, double y, double radius);
+	
+	void buildTree(const vector<coordinates>& coords);
+	void queryRadius(
+		double x1, double y1,
+		double x2, double y2,
+		double radius,
+		unordered_map<int, double>& startPoints,
+		unordered_map<int, double>& endPoints);
 };

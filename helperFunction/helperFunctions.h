@@ -28,7 +28,7 @@ double meterToKilometer(double meter);
 double minuteToHours(double minutes);
 double truncateTwoDecimals(double value);
 
-int addNode(unordered_map<int, vector<edge>>& graph, const unordered_map<int, double>&);
+int addNode(unordered_map<int, vector<edge>>& graph, const vector<pair<int, double>>& points);
 void addNode( vector <coordinates>& coordinate, coordinates coor);
 
 double roundUp(double number);

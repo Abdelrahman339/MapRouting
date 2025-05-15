@@ -115,7 +115,7 @@ double truncateTwoDecimals(double value) {
 	return static_cast<int>(value * 100) / 100.0;
 }
 
-int addNode(unordered_map<int, vector<edge>>& graph,const unordered_map<int, double>&points) {
+int addNode(unordered_map<int, vector<edge>>& graph,const vector<pair<int, double>>&points) {
 
 	int nodeId = graph.size();
 	for (auto& [ponitID, distance] : points)

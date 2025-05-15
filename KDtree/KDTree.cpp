@@ -25,32 +25,67 @@ KDNode* KDTree::build(vector<int>& indices, int depth) {
     return node;
 }
 
-void KDTree::radiusSearch(KDNode* node, double x, double y, double radiusSquared, unordered_map<int, double>& result, int depth) {
+void KDTree::radiusSearch(
+    KDNode* node,
+    double x1, double y1,
+    double x2, double y2,
+    double radiusSquared,
+    std::vector<std::pair<int, double>>& startPoints,
+    std::vector<std::pair<int, double>>& endPoints,
+    int depth)
+{
     if (!node) return;
 
-    double dx = node->point.x_coordinate - x;
-    double dy = node->point.y_coordinate - y;
-    double distSq = dx * dx + dy * dy;
+    const auto& pt = node->point;
 
-    if (distSq <= radiusSquared) {
-        result[node->nodeId] = sqrt(distSq);
+    // Compute squared distances only once
+    double dx1 = pt.x_coordinate - x1;
+    double dy1 = pt.y_coordinate - y1;
+    double distSq1 = dx1 * dx1 + dy1 * dy1;
+
+    double dx2 = pt.x_coordinate - x2;
+    double dy2 = pt.y_coordinate - y2;
+    double distSq2 = dx2 * dx2 + dy2 * dy2;
+
+    if (distSq1 <= radiusSquared) {
+        startPoints.emplace_back(node->nodeId, sqrt(distSq1));
+    }
+    if (distSq2 <= radiusSquared) {
+        endPoints.emplace_back(node->nodeId, sqrt(distSq2));
     }
 
     int axis = depth % 2;
-    double delta = (axis == 0) ? dx : dy;
-    double deltaSq = delta * delta;
+    double coord = (axis == 0) ? pt.x_coordinate : pt.y_coordinate;
+    double t1 = (axis == 0) ? x1 : y1;
+    double t2 = (axis == 0) ? x2 : y2;
 
-    if (delta > 0) {
-        radiusSearch(node->left, x, y, radiusSquared, result, depth + 1);
-        if (deltaSq <= radiusSquared)
-            radiusSearch(node->right, x, y, radiusSquared, result, depth + 1);
+    bool goLeft = false, goRight = false;
+
+    // Check pruning conditions separately for each target
+    if ((coord - t1) * (coord - t1) <= radiusSquared ||
+        (coord - t2) * (coord - t2) <= radiusSquared) {
+        goLeft = goRight = true;
     }
     else {
-        radiusSearch(node->right, x, y, radiusSquared, result, depth + 1);
-        if (deltaSq <= radiusSquared)
-            radiusSearch(node->left, x, y, radiusSquared, result, depth + 1);
+        double radius = std::sqrt(radiusSquared);
+        if (coord > t1 + radius && coord > t2 + radius) {
+            goLeft = true;
+        }
+        else if (coord < t1 - radius && coord < t2 - radius) {
+            goRight = true;
+        }
+        else {
+            goLeft = goRight = true;
+        }
     }
+
+    if (goLeft)
+        radiusSearch(node->left, x1, y1, x2, y2, radiusSquared, startPoints, endPoints, depth + 1);
+    if (goRight)
+        radiusSearch(node->right, x1, y1, x2, y2, radiusSquared, startPoints, endPoints, depth + 1);
 }
+
+
 
 void KDTree::buildTree(const std::vector<coordinates>& coords) {
     this->coordsRef = &coords;
@@ -62,8 +97,13 @@ void KDTree::buildTree(const std::vector<coordinates>& coords) {
     root = build(indices, 0);
 }
 
-unordered_map<int, double> KDTree::queryRadius(double x, double y, double radius) {
-    unordered_map<int, double> result;
-    radiusSearch(root, x, y, radius * radius, result, 0);
-    return result;
+void KDTree::queryRadius(
+    double x1, double y1,
+    double x2, double y2,
+    double radius,
+    std::unordered_map<int, double>& startPoints,
+    std::unordered_map<int, double>& endPoints)
+{
+    //double radiusSquared = radius * radius;
+    //radiusSearch(root, x1, y1, x2, y2, radiusSquared, startPoints, endPoints, 0);
 }
