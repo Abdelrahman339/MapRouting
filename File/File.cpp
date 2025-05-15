@@ -1,10 +1,6 @@
 #include "File.h"
 
-string file::getCellKey(float x, float y, float cellSize) {
-	int gx = floor(x / cellSize);
-	int gy = floor(y / cellSize);
-	return to_string(gx) + "_" + to_string(gy);
-}
+
 
 unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, float& maxSpeed) {
 
@@ -35,8 +31,7 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 		c.setX_coordinate(x_coordinate);
 		c.setY_coordinate(y_coordinate);
 		Nodes[node] = c;
-		string cellKey = getCellKey(x_coordinate, y_coordinate, cellSize); 
-		spatialGrid[cellKey].push_back(node);
+	
 	}
 
 

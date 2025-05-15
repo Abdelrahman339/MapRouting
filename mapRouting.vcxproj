@@ -25,6 +25,7 @@
     <ClCompile Include="graph\coordinates.cpp" />
     <ClCompile Include="File\File.cpp" />
     <ClCompile Include="helperFunction\helperFunctions.cpp" />
+    <ClCompile Include="KDtree\KDTree.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="mapVisualization\visual.cpp" />
     <ClCompile Include="query\query.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="graph\coordinates.h" />
     <ClInclude Include="File\File.h" />
     <ClInclude Include="helperFunction\helperFunctions.h" />
+    <ClInclude Include="KDtree\KDTree.h" />
     <ClInclude Include="query\query.h" />
     <ClInclude Include="Test\test.h" />
   </ItemGroup>

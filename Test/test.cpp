@@ -1,4 +1,5 @@
 #include "../Test/test.h"
+#include "../KDtree/KDTree.h"
 void test::doTest(char choice)
 {
 	unordered_map<int, vector<edge>> graph;
@@ -37,16 +38,21 @@ void test::doTest(char choice)
 
 	coor = f.readFile(fileName, graph, maxSpeed);
 	queries = f.readQuery(queryFileName);
+	KDTree kd;
+	kd.buildTree(coor);
 
 	int sourcePointId;
 	int destinationPointID;
-	//10 will be replaced with q.numberOfQueries
+	//10 will be replaced with q.
+	
 	for (query q : queries) {
 
 		copyGraph = graph;
 		copyCoor = coor;
-		unordered_map<int, float> startPoints = getNodesWithinRadius(q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate, q.R, copyCoor);
-		unordered_map<int, float> endPoints = getNodesWithinRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R, copyCoor);
+
+		
+		unordered_map<int, float> startPoints = kd.queryRadius(q.startCoordinate.x_coordinate,q.startCoordinate.y_coordinate,q.R);
+		unordered_map<int, float> endPoints = kd.queryRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R);
 		//add the start point and the distenation point in the graph for each qeuery
 		sourcePointId = addNode(copyGraph, startPoints);
 		destinationPointID = addNode(copyGraph, endPoints);
@@ -57,6 +63,7 @@ void test::doTest(char choice)
 		p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor));
 
 		}
+	
 
 	f.writeFile(map, p);
 
