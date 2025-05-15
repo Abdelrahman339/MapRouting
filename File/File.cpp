@@ -109,7 +109,7 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 			float speed;
 			infile >> speed;
 			e.edgeSpeeds.push_back(speed);
-
+			
 			if (speed > maxSpeed)
 				maxSpeed = speed;
 		}

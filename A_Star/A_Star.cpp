@@ -64,6 +64,8 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 	walkTime[sourcePointID] = 0;
 
 	gCosts[sourcePointID] = 0;
+	
+	float H = calcH(sourcePointID, destinationPointID, coordinate, maxSpeed, R);
 
 	while (!priorityQ.empty())
 	{
@@ -92,7 +94,6 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 		visited.insert(currentnodeId);
 
 
-		float H = calcH(sourcePointID, destinationPointID, coordinate, maxSpeed, R);
 
 		for (edge neighbor : graph[currentnodeId])
 		{
@@ -131,7 +132,9 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 				}
 
 				float F = calcF(H, tempG);
-				priorityQ.push({ neighbor.node,F });
+				if (!visited.count(neighbor.node)) {
+					priorityQ.push({ neighbor.node, F });
+				}
 
 			}
 
