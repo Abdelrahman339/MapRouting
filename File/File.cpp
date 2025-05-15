@@ -1,5 +1,10 @@
 #include "File.h"
 
+string file::getCellKey(float x, float y, float cellSize) {
+	int gx = floor(x / cellSize);
+	int gy = floor(y / cellSize);
+	return to_string(gx) + "_" + to_string(gy);
+}
 
 unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, float& maxSpeed) {
 
@@ -20,7 +25,8 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 	int node;
 	float x_coordinate, y_coordinate;
 
-
+	unordered_map<string, vector<int>> spatialGrid;
+	float cellSize;
 
 	for (int i = 0; i < numberOfnodes; ++i)
 	{
@@ -29,6 +35,8 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 		c.setX_coordinate(x_coordinate);
 		c.setY_coordinate(y_coordinate);
 		Nodes[node] = c;
+		string cellKey = getCellKey(x_coordinate, y_coordinate, cellSize); 
+		spatialGrid[cellKey].push_back(node);
 	}
 
 
@@ -66,11 +74,16 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 	int numberOfnodes;
 	unordered_map <int, coordinates> Nodes;
 	infile >> numberOfnodes;
+	
+
+	unordered_map<string, vector<int>> spatialGrid;
+	float cellSize;
 
 	int node;
 	float x_coordinate, y_coordinate;
+	
 
-
+	
 
 	for (int i = 0; i < numberOfnodes; ++i)
 	{
@@ -79,6 +92,7 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 		c.setX_coordinate(x_coordinate);
 		c.setY_coordinate(y_coordinate);
 		Nodes[node] = c;
+		
 	}
 
 

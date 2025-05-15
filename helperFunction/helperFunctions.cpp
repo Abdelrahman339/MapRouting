@@ -30,6 +30,43 @@ float calculateEuclideanDistance(int startPointId, float destx, float destY, uno
 }
 
 
+
+
+
+
+
+
+
+unordered_map<int, float> getNodesWithinRadiusGrid(float targetX,float targetY,float radius,unordered_map<int, coordinates>& Nodes,unordered_map<string, vector<int>>& spatialGrid,float cellSize) {
+	unordered_map<int, float> result;
+	float rSquared = radius * radius;
+
+	
+	int cellX = static_cast<int>(floor(targetX / cellSize));
+	int cellY = static_cast<int>(floor(targetY / cellSize));
+
+
+	for (int dx = -1; dx <= 1; ++dx) {
+		for (int dy = -1; dy <= 1; ++dy) {
+			string neighborKey = to_string(cellX + dx) + "_" + to_string(cellY + dy);
+			if (spatialGrid.count(neighborKey)) {
+				for (int nodeId : spatialGrid.at(neighborKey)) {
+					const auto& coord = Nodes.at(nodeId);
+					float dx = coord.x_coordinate - targetX;
+					float dy = coord.y_coordinate - targetY;
+					float distSq = dx * dx + dy * dy;
+
+					if (distSq <= rSquared) {
+						result[nodeId] = sqrt(distSq);
+					}
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
 unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates> Nodes) {
 
 	unordered_map<int, float>result;
