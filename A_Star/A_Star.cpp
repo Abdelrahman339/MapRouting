@@ -40,25 +40,12 @@ double A_Star::calcG(int startN, edge endN, double prevG) {
 bestPath A_Star::A(const unordered_map<int, vector<edge>> &graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, const unordered_map<int, coordinates>&coordinate)
 {
 	priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
-	priorityQ.push({ sourcePointID, 0 });
-
+	priorityQ.push({ sourcePointID, 0, 0, 0, 0, 0 });
 	bestPath result;
 
 	unordered_map<int, int> thePath;
 	unordered_set<int> visited;
 	unordered_map<int, double> gCosts;
-
-
-	unordered_map<int, double> walkDistances;
-	unordered_map<int, double> roadDistances;
-	unordered_map<int, double> walkTime;
-	unordered_map<int, double> roadTime;
-
-
-	walkDistances[sourcePointID] = 0;
-	roadDistances[sourcePointID] = 0;
-	roadTime[sourcePointID] = 0;
-	walkTime[sourcePointID] = 0;
 
 	gCosts[sourcePointID] = 0;
 
@@ -67,9 +54,9 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>> &graph, int sourcePoin
 	while (!priorityQ.empty())
 	{
 
-		int currentnodeId = priorityQ.top().node;
+		NodeInfo current = priorityQ.top();
 		priorityQ.pop();
-		if (currentnodeId == destinationPointID)
+		if (current.node == destinationPointID)
 		{
 			vector<int> path;
 
@@ -77,59 +64,48 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>> &graph, int sourcePoin
 				result.nodes.push(node);
 
 			//p.nodes.insert();
-			result.walkingDistance = walkDistances[currentnodeId];
-			result.roadDistance = roadDistances[currentnodeId];
-			result.totalDistance = roundUp(result.walkingDistance + result.roadDistance);
-			double roadInMinutes = 60 * (roadTime[currentnodeId]);
-			double walkingInMinutes = walkTime[currentnodeId];
-			result.time = roundUp(walkingInMinutes + roadInMinutes);
+			result.walkingDistance = current.walkDist;
+			result.roadDistance = current.roadDist;
+			result.totalDistance = roundUp(current.walkDist + current.roadDist);
+			result.time = roundUp(current.walkTime + current.roadTime * 60);
 			return result;
 		}
-		auto temp = visited.find(currentnodeId);
+		auto temp = visited.find(current.node);
 		if (temp != visited.end())
 			continue;
-		visited.insert(currentnodeId);
+		visited.insert(current.node);
 
 
 
-		for (edge neighbor : graph.at(currentnodeId))
+		for (edge neighbor : graph.at(current.node))
 		{
 			//calc the g , h and f for each neighbor 
-			double tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId]);
+			double tempG = calcG(current.node, neighbor, gCosts[current.node]);
 			auto it = gCosts.find(neighbor.node);
 			if (it == gCosts.end() || tempG < it->second)
 			{
 
-				thePath[neighbor.node] = currentnodeId;
+				thePath[neighbor.node] = current.node;
 				gCosts[neighbor.node] = tempG;
 
 
+				double newWalkDist = current.walkDist;
+				double newRoadDist = current.roadDist;
+				double newWalkTime = current.walkTime;
+				double newRoadTime = current.roadTime;
 
-
-				if (currentnodeId == sourcePointID) {
-					walkDistances[neighbor.node] = neighbor.edgeLength;
-					walkTime[neighbor.node] = walkTime[currentnodeId] + (1000 * (neighbor.edgeLength)) / ((walkingSpeed * 1000) / 60);
-				}
-				else if (neighbor.node == destinationPointID) {
-					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength;
-					walkTime[neighbor.node] = walkTime[currentnodeId] + (1000 * (neighbor.edgeLength)) / ((walkingSpeed * 1000) / 60);
+				if (current.node == sourcePointID || neighbor.node == destinationPointID) {
+					newWalkDist += neighbor.edgeLength;
+					newWalkTime += (1000 * neighbor.edgeLength) / ((walkingSpeed * 1000) / 60);  // minutes
 				}
 				else {
-					walkDistances[neighbor.node] = walkDistances[currentnodeId];
-					walkTime[neighbor.node] = walkTime[currentnodeId];
+					newRoadDist += neighbor.edgeLength;
+					newRoadTime += neighbor.edgeLength / neighbor.edgeSpeed; // hours
 				}
 
-				if (currentnodeId != sourcePointID && neighbor.node != destinationPointID) {
-					roadDistances[neighbor.node] = roadDistances[currentnodeId] + neighbor.edgeLength;
-					roadTime[neighbor.node] = roadTime[currentnodeId] + neighbor.edgeLength / neighbor.edgeSpeed;
-				}
-				else {
-					roadDistances[neighbor.node] = roadDistances[currentnodeId];
-					roadTime[neighbor.node] = roadTime[currentnodeId];
-				}
-
+				
 				double F = H + tempG;
-				priorityQ.push({ neighbor.node, F });
+				priorityQ.push({ neighbor.node, F,newWalkDist,newRoadDist,newWalkTime,newRoadTime });
 
 
 			}
@@ -143,7 +119,8 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>> &graph, int sourcePoin
 bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>coordinate, double timeIntervel, int speedSize)
 {
 	priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
-	priorityQ.push({ sourcePointID, 0 });
+	priorityQ.push({ sourcePointID, 0, 0, 0, 0, 0 });
+
 
 	bestPath result;
 
@@ -171,15 +148,15 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 	while (!priorityQ.empty())
 	{
 
-		int currentnodeId = priorityQ.top().node;
+		NodeInfo current = priorityQ.top();
 		priorityQ.pop();
 
 
 		//for the speed changeing 
-		currentTime = 60 * (roadTime[currentnodeId]);
+		currentTime = 60 * (roadTime[current.node]);
 		speedIndex = (int)(currentTime / timeIntervel) % speedSize;
 
-		if (currentnodeId == destinationPointID)
+		if (current.node == destinationPointID)
 		{
 			vector<int> path;
 
@@ -187,57 +164,57 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 				result.nodes.push(node);
 
 			//p.nodes.insert();
-			result.walkingDistance = walkDistances[currentnodeId];
-			result.roadDistance = roadDistances[currentnodeId];
+			result.walkingDistance = walkDistances[current.node];
+			result.roadDistance = roadDistances[current.node];
 			result.totalDistance = result.walkingDistance + result.roadDistance;
-			double roadInMinutes = (roadTime[currentnodeId]);
-			double walkingInMinutes = walkTime[currentnodeId];
+			double roadInMinutes = (roadTime[current.node]);
+			double walkingInMinutes = walkTime[current.node];
 			result.time = walkingInMinutes + roadInMinutes;
 			return result;
 		}
 
-		if (visited.count(currentnodeId))
+		if (visited.count(current.node))
 			continue;
-		visited.insert(currentnodeId);
+		visited.insert(current.node);
 
-		vector<edge> neighbors = graph[currentnodeId];
+		vector<edge> neighbors = graph[current.node];
 
 
 
 		for (edge neighbor : neighbors)
 		{
 			//calc the g , h and f for each neighbor 
-			double tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId], speedIndex);
+			double tempG = calcG(current.node, neighbor, gCosts[current.node], speedIndex);
 
 			if (!gCosts.count(neighbor.node) || tempG < gCosts[neighbor.node])
 			{
 
-				thePath[neighbor.node] = currentnodeId;
+				thePath[neighbor.node] = current.node;
 				gCosts[neighbor.node] = tempG;
 
 
 
 
-				if (currentnodeId == sourcePointID) {
+				if (current.node == sourcePointID) {
 					walkDistances[neighbor.node] = neighbor.edgeLength;
-					walkTime[neighbor.node] = walkTime[currentnodeId] + calculateWalkingTime(1000 * (neighbor.edgeLength));
+					walkTime[neighbor.node] = walkTime[current.node] + calculateWalkingTime(1000 * (neighbor.edgeLength));
 				}
 				else if (neighbor.node == destinationPointID) {
-					walkDistances[neighbor.node] = walkDistances[currentnodeId] + neighbor.edgeLength;
-					walkTime[neighbor.node] = walkTime[currentnodeId] + calculateWalkingTime(1000 * (neighbor.edgeLength));
+					walkDistances[neighbor.node] = walkDistances[current.node] + neighbor.edgeLength;
+					walkTime[neighbor.node] = walkTime[current.node] + calculateWalkingTime(1000 * (neighbor.edgeLength));
 				}
 				else {
-					walkDistances[neighbor.node] = walkDistances[currentnodeId];
-					walkTime[neighbor.node] = walkTime[currentnodeId];
+					walkDistances[neighbor.node] = walkDistances[current.node];
+					walkTime[neighbor.node] = walkTime[current.node];
 				}
 
-				if (currentnodeId != sourcePointID && neighbor.node != destinationPointID) {
-					roadDistances[neighbor.node] = roadDistances[currentnodeId] + neighbor.edgeLength;
-					roadTime[neighbor.node] = roadTime[currentnodeId] + calculateRoadTime(neighbor.edgeLength, neighbor.edgeSpeeds[speedIndex]);
+				if (current.node != sourcePointID && neighbor.node != destinationPointID) {
+					roadDistances[neighbor.node] = roadDistances[current.node] + neighbor.edgeLength;
+					roadTime[neighbor.node] = roadTime[current.node] + calculateRoadTime(neighbor.edgeLength, neighbor.edgeSpeeds[speedIndex]);
 				}
 				else {
-					roadDistances[neighbor.node] = roadDistances[currentnodeId];
-					roadTime[neighbor.node] = roadTime[currentnodeId];
+					roadDistances[neighbor.node] = roadDistances[current.node];
+					roadTime[neighbor.node] = roadTime[current.node];
 				}
 
 				double H = calcH(sourcePointID, destinationPointID, coordinate, maxSpeed, R);

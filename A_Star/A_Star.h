@@ -48,6 +48,10 @@ public:
 struct NodeInfo {
 	int node;
 	double fCost;
+	double walkDist;
+	double roadDist;
+	double walkTime;
+	double roadTime;
 
 	// Priority queue comparator (min-heap)
 	bool operator>(const NodeInfo& other) const {
