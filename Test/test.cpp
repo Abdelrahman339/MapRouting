@@ -34,24 +34,23 @@ void test::doTest(char choice)
 		fileName = dir + map;
 		queryFileName = "Data/testCases/[3] Large Cases/input/SFQueries.txt";
 	}
-	auto startIO = high_resolution_clock::now();
 
-	coor = f.readFile(fileName, graph, maxSpeed);
-	queries = f.readQuery(queryFileName);
+	f.readFile(fileName, graph, maxSpeed, coor);
+	f.readQuery(queryFileName, queries);
+	auto startIO = high_resolution_clock::now();	
 	KDTree kd;
 	kd.buildTree(coor);
 
 	int sourcePointId;
 	int destinationPointID;
-	//10 will be replaced with q.
-	
+
 	for (query q : queries) {
 
 		copyGraph = graph;
 		copyCoor = coor;
 
-		
-		unordered_map<int, double> startPoints = kd.queryRadius(q.startCoordinate.x_coordinate,q.startCoordinate.y_coordinate,q.R);
+
+		unordered_map<int, double> startPoints = kd.queryRadius(q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate, q.R);
 		unordered_map<int, double> endPoints = kd.queryRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R);
 		//add the start point and the distenation point in the graph for each qeuery
 		sourcePointId = addNode(copyGraph, startPoints);
@@ -62,15 +61,15 @@ void test::doTest(char choice)
 		A_Star path;
 		p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor));
 
-		}
-	
+	}
+
+	auto stopIO = high_resolution_clock::now();
 
 	f.writeFile(map, p);
 
 
 
 
-	auto stopIO = high_resolution_clock::now();
 	double elapsedTimeWithIO = duration<double, milli>(stopIO - startIO).count();
 	cout << "Not added yet" << " ms" << endl;
 	cout << endl;
@@ -105,11 +104,11 @@ void test::bounsTest()
 	queryFileName = choice == 1 ? "Data/testCases/[4] BONUS Test Cases/[1] Sample Cases/Input/queries1.txt" :
 		"Data/testCases/[4] BONUS Test Cases/[1] Medium Cases/Input/OLQueries.txt";
 
+
+	f.readFile(fileName, graph, maxSpeed, timeInterval, speedSize, coor);
+	f.readQuery(queryFileName, queries);
+
 	auto startIO = high_resolution_clock::now();
-
-	coor = f.readFile(fileName, graph, maxSpeed, timeInterval, speedSize);
-	queries = f.readQuery(queryFileName);
-
 	int sourcePointId;
 	int destinationPointID;
 	//10 will be replaced with q.numberOfQueries

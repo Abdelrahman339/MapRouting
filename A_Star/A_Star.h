@@ -40,7 +40,7 @@ public:
 
 	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>, double timeIntervel, int speedSize);
 	
-	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>);
+	bestPath A(const unordered_map<int, vector<edge>>& graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, const unordered_map<int, coordinates>&);
 
 };
 

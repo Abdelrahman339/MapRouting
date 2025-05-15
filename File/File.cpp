@@ -2,7 +2,7 @@
 
 
 
-unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, double& maxSpeed) {
+void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, double& maxSpeed, unordered_map <int, coordinates> &Nodes){
 
 	//file info
 
@@ -15,7 +15,6 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 
 	//coordinates of each node 
 	int numberOfnodes;
-	unordered_map <int, coordinates> Nodes;
 	infile >> numberOfnodes;
 
 	int node;
@@ -53,9 +52,8 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 		if (e.edgeSpeed > maxSpeed)
 			maxSpeed = e.edgeSpeed;
 	}
-	return Nodes;
 }
-unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, double& Speed_Interval,int&speedSize) {
+void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, double& Speed_Interval,int&speedSize, unordered_map <int, coordinates>& Nodes) {
 
 	//file info
 	string file = fileName;
@@ -64,21 +62,14 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 		cout << "Failed to open file.\n";
 	}
 
-
 	//coordinates of each node 
 	int numberOfnodes;
-	unordered_map <int, coordinates> Nodes;
 	infile >> numberOfnodes;
-	
-
-	unordered_map<string, vector<int>> spatialGrid;
-	double cellSize;
 
 	int node;
-	double x_coordinate, y_coordinate;
-	
+	float x_coordinate, y_coordinate;
 
-	
+
 
 	for (int i = 0; i < numberOfnodes; ++i)
 	{
@@ -87,27 +78,17 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 		c.setX_coordinate(x_coordinate);
 		c.setY_coordinate(y_coordinate);
 		Nodes[node] = c;
-		
 	}
 
 
 	//graph construction 
 	int numberOfEdges;
-	infile >> numberOfEdges >> speedSize >> Speed_Interval;
+	infile >> numberOfEdges;
 	int temp;
+	edge e;
 	int vertex;
 	for (int i = 0; i < numberOfEdges; ++i) {
-		edge e;
-		infile >> vertex >> e.node >> e.edgeLength;
-		for (int i = 0; i < speedSize; ++i)
-		{
-			double speed;
-			infile >> speed;
-			e.edgeSpeeds.push_back(speed);
-			
-			if (speed > maxSpeed)
-				maxSpeed = speed;
-		}
+		infile >> vertex >> e.node >> e.edgeLength >> e.edgeSpeed;
 		graph[vertex].push_back(e);
 		temp = vertex;
 		vertex = e.node;
@@ -115,11 +96,12 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 		graph[vertex].push_back(e);
 
 
+		if (e.edgeSpeed > maxSpeed)
+			maxSpeed = e.edgeSpeed;
 	}
-	return Nodes;
 }
 
-vector<query> file::readQuery(string fileName)
+void file::readQuery(string fileName, vector<query> &queries)
 {
 	string file = fileName;
 	ifstream infile(file);
@@ -130,7 +112,6 @@ vector<query> file::readQuery(string fileName)
 	//query constract
 
 	int numberOfQueries;
-	vector<query> queries;
 	infile >> numberOfQueries;
 	query q;
 
@@ -142,20 +123,19 @@ vector<query> file::readQuery(string fileName)
 		queries.push_back(q);
 	}
 
-	return queries;
 };
 
-void file::writeFile(string fileName, vector<bestPath> quries)
+void file::writeFile(string fileName, vector<bestPath> queries)
 {
 	fileName = "Output/" + fileName;
 	ofstream file(fileName);
 
 	if (!file.is_open()) {
-		cerr << "Error opening file!" << endl;
+	cout<<"Error opening file!" <<endl;
 		return;
 	}
 
-	for (bestPath path : quries) {
+	for (bestPath path : queries) {
 
 		bool first = true;
 		while (!path.nodes.empty()) {

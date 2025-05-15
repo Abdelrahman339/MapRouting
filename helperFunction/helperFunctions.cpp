@@ -11,10 +11,10 @@ double calculateEuclideanDistance(int startPointId, int goalPointId, unordered_m
 	double goalX = Nodes[goalPointId].x_coordinate;
 	double goalY = Nodes[goalPointId].y_coordinate;
 
-	double X = pow(goalX - startX, 2);
-	double Y = pow(goalY - startY, 2);
+	double X = goalX - startX;
+	double Y = goalY - startY;
 
-	return sqrt(X + Y);
+	return sqrt(X*X + Y*Y);
 }
 
 double calculateEuclideanDistance(int startPointId, double destx, double destY, unordered_map<int, coordinates> Nodes)
@@ -23,10 +23,10 @@ double calculateEuclideanDistance(int startPointId, double destx, double destY, 
 	double goalY = Nodes[startPointId].y_coordinate;
 
 
-	double X = pow(destx - startX, 2);
-	double Y = pow(destY - goalY, 2);
+	double X = destx - startX;
+	double Y = destY - goalY;
 
-	return sqrt(X + Y);
+	return sqrt(X*X + Y*Y);
 }
 
 
@@ -98,18 +98,14 @@ double calculateWalkingTime(double distance) {
 }
 
 //For distances
-double kilometerToMeter(double kilo) {
-	return kilo * 1000.0f;
-}
+
 
 double meterToKilometer(double meter) {
 	return meter / 1000.0f;
 }
 
 //for time
-double hoursToMinutes(double hours) {
-	return hours * 60.0f;
-}
+
 
 double minuteToHours(double minutes) {
 	return minutes / 60.0f;
@@ -119,7 +115,7 @@ double truncateTwoDecimals(double value) {
 	return static_cast<int>(value * 100) / 100.0;
 }
 
-int addNode(unordered_map<int, vector<edge>>& graph, unordered_map<int, double>points) {
+int addNode(unordered_map<int, vector<edge>>& graph,const unordered_map<int, double>&points) {
 
 	int nodeId = graph.size();
 	for (auto& [ponitID, distance] : points)
@@ -147,5 +143,5 @@ void addNode(unordered_map<int, coordinates>& coordinate, coordinates coor)
 };
 double roundUp(double number) 
 {
-	return round(number * 100.0f) / 100.0f;
+	return round(number * 100.0) / 100.0;
 }

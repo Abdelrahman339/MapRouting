@@ -24,13 +24,11 @@ double calculateRoadTime(double distance, double speed); //for each road
 double calculateWalkingTime(double distance);//called twice (1st time => to reach start point , 2nd time => to reach end point)
 unordered_map<int, double> getNodesWithinRadiusGrid(double targetX,double targetY,double radius,unordered_map<int, coordinates>& Nodes,unordered_map<string, vector<int>>& spatialGrid,double cellSize);
 
-double kilometerToMeter(double kilo);
 double meterToKilometer(double meter);
-double hoursToMinutes(double hours);
 double minuteToHours(double minutes);
 double truncateTwoDecimals(double value);
 
-int addNode(unordered_map<int, vector<edge>>& graph, unordered_map<int, double>);
+int addNode(unordered_map<int, vector<edge>>& graph, const unordered_map<int, double>&);
 void addNode(unordered_map<int, coordinates>& coordinate, coordinates coor);
 
 double roundUp(double number);
