@@ -5,13 +5,13 @@ using namespace std;
 
 
 coordinates::coordinates() {};
-coordinates::coordinates(float x_coordinate, float y_coordinate) {};
+coordinates::coordinates(double x_coordinate, double y_coordinate) {};
 
-float coordinates::getX_coordinate() { return this->x_coordinate; };
-float coordinates::getY_coordinate() { return this->y_coordinate; };
+double coordinates::getX_coordinate() { return this->x_coordinate; };
+double coordinates::getY_coordinate() { return this->y_coordinate; };
 
-void coordinates::setX_coordinate(float c) { this->x_coordinate = c; };
-void coordinates::setY_coordinate(float c) { this->y_coordinate = c; };
+void coordinates::setX_coordinate(double c) { this->x_coordinate = c; };
+void coordinates::setY_coordinate(double c) { this->y_coordinate = c; };
 void coordinates::printCoordinates(unordered_map<int, coordinates> coor)
 {
 	for (auto& [node, coords] : coor) {

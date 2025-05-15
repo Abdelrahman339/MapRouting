@@ -5,26 +5,26 @@ using namespace std;
 
 
 
-float calculateEuclideanDistance(int startPointId, int goalPointId, unordered_map<int, coordinates> Nodes) {
-	float startX = Nodes[startPointId].x_coordinate;
-	float startY = Nodes[startPointId].y_coordinate;
-	float goalX = Nodes[goalPointId].x_coordinate;
-	float goalY = Nodes[goalPointId].y_coordinate;
+double calculateEuclideanDistance(int startPointId, int goalPointId, unordered_map<int, coordinates> Nodes) {
+	double startX = Nodes[startPointId].x_coordinate;
+	double startY = Nodes[startPointId].y_coordinate;
+	double goalX = Nodes[goalPointId].x_coordinate;
+	double goalY = Nodes[goalPointId].y_coordinate;
 
-	float X = pow(goalX - startX, 2);
-	float Y = pow(goalY - startY, 2);
+	double X = pow(goalX - startX, 2);
+	double Y = pow(goalY - startY, 2);
 
 	return sqrt(X + Y);
 }
 
-float calculateEuclideanDistance(int startPointId, float destx, float destY, unordered_map<int, coordinates> Nodes)
+double calculateEuclideanDistance(int startPointId, double destx, double destY, unordered_map<int, coordinates> Nodes)
 {
-	float startX = Nodes[startPointId].x_coordinate;
-	float goalY = Nodes[startPointId].y_coordinate;
+	double startX = Nodes[startPointId].x_coordinate;
+	double goalY = Nodes[startPointId].y_coordinate;
 
 
-	float X = pow(destx - startX, 2);
-	float Y = pow(destY - goalY, 2);
+	double X = pow(destx - startX, 2);
+	double Y = pow(destY - goalY, 2);
 
 	return sqrt(X + Y);
 }
@@ -37,9 +37,9 @@ float calculateEuclideanDistance(int startPointId, float destx, float destY, uno
 
 
 
-unordered_map<int, float> getNodesWithinRadiusGrid(float targetX,float targetY,float radius,unordered_map<int, coordinates>& Nodes,unordered_map<string, vector<int>>& spatialGrid,float cellSize) {
-	unordered_map<int, float> result;
-	float rSquared = radius * radius;
+unordered_map<int, double> getNodesWithinRadiusGrid(double targetX,double targetY,double radius,unordered_map<int, coordinates>& Nodes,unordered_map<string, vector<int>>& spatialGrid,double cellSize) {
+	unordered_map<int, double> result;
+	double rSquared = radius * radius;
 
 	
 	int cellX = static_cast<int>(floor(targetX / cellSize));
@@ -52,9 +52,9 @@ unordered_map<int, float> getNodesWithinRadiusGrid(float targetX,float targetY,f
 			if (spatialGrid.count(neighborKey)) {
 				for (int nodeId : spatialGrid.at(neighborKey)) {
 					const auto& coord = Nodes.at(nodeId);
-					float dx = coord.x_coordinate - targetX;
-					float dy = coord.y_coordinate - targetY;
-					float distSq = dx * dx + dy * dy;
+					double dx = coord.x_coordinate - targetX;
+					double dy = coord.y_coordinate - targetY;
+					double distSq = dx * dx + dy * dy;
 
 					if (distSq <= rSquared) {
 						result[nodeId] = sqrt(distSq);
@@ -67,18 +67,18 @@ unordered_map<int, float> getNodesWithinRadiusGrid(float targetX,float targetY,f
 	return result;
 }
 
-unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, float radius, unordered_map<int, coordinates> Nodes) {
+unordered_map<int, double> getNodesWithinRadius(double targetX, double targetY, double radius, unordered_map<int, coordinates> Nodes) {
 
-	unordered_map<int, float>result;
+	unordered_map<int, double>result;
 	//iterate over all nodes => N-1
 	//for now O(Nodes) , may be changed later
 
 	for (const auto& pair : Nodes) {
 		int nodeId = pair.first;
 		coordinates coord = pair.second;
-		float nodeX = coord.getX_coordinate();
-		float nodeY = coord.getY_coordinate();
-		float distance = calculateEuclideanDistance(nodeId, targetX, targetY, Nodes);
+		double nodeX = coord.getX_coordinate();
+		double nodeY = coord.getY_coordinate();
+		double distance = calculateEuclideanDistance(nodeId, targetX, targetY, Nodes);
 		if (distance <= radius)
 			result[nodeId] = distance;
 
@@ -87,39 +87,39 @@ unordered_map<int, float> getNodesWithinRadius(float targetX, float targetY, flo
 	return result;
 }
 
-float calculateRoadTime(float distance, float speed) {
+double calculateRoadTime(double distance, double speed) {
 	return (distance / speed);
 }
 
-float calculateWalkingTime(float distance) {
-	float walkSpeedInMeterPerMin = ((walkingSpeed * 1000) / 60);
+double calculateWalkingTime(double distance) {
+	double walkSpeedInMeterPerMin = ((walkingSpeed * 1000) / 60);
 	return distance / walkSpeedInMeterPerMin;
 
 }
 
 //For distances
-float kilometerToMeter(float kilo) {
+double kilometerToMeter(double kilo) {
 	return kilo * 1000.0f;
 }
 
-float meterToKilometer(float meter) {
+double meterToKilometer(double meter) {
 	return meter / 1000.0f;
 }
 
 //for time
-float hoursToMinutes(float hours) {
+double hoursToMinutes(double hours) {
 	return hours * 60.0f;
 }
 
-float minuteToHours(float minutes) {
+double minuteToHours(double minutes) {
 	return minutes / 60.0f;
 }
 
-float truncateTwoDecimals(float value) {
+double truncateTwoDecimals(double value) {
 	return static_cast<int>(value * 100) / 100.0;
 }
 
-int addNode(unordered_map<int, vector<edge>>& graph, unordered_map<int, float>points) {
+int addNode(unordered_map<int, vector<edge>>& graph, unordered_map<int, double>points) {
 
 	int nodeId = graph.size();
 	for (auto& [ponitID, distance] : points)
@@ -145,3 +145,7 @@ void addNode(unordered_map<int, coordinates>& coordinate, coordinates coor)
 	int coorId = coordinate.size();
 	coordinate[coorId] = coor;
 };
+double roundUp(double number) 
+{
+	return round(number * 100.0f) / 100.0f;
+}

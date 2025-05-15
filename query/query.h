@@ -9,7 +9,7 @@ public:
 	int NumOfQueries;
 	coordinates startCoordinate;
 	coordinates destCoordinate;
-	float R;
+	double R;
 
 
 };

@@ -17,10 +17,10 @@ private:
     KDNode* root;
 
     KDNode* build(vector<pair<int, coordinates>>& points, int depth);
-    void radiusSearch(KDNode* node, float x, float y, float radiusSquared, unordered_map<int, float>& result, int depth);
+    void radiusSearch(KDNode* node, double x, double y, double radiusSquared, unordered_map<int, double>& result, int depth);
 
 public:
     KDTree() : root(nullptr) {}
     void buildTree(const unordered_map<int, coordinates>& nodes);
-    unordered_map<int, float> queryRadius(float x, float y, float radius);
+    unordered_map<int, double> queryRadius(double x, double y, double radius);
 };

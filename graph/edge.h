@@ -12,14 +12,14 @@ private:
 
 public:
 	int node;
-	float edgeLength;
-	vector<float> edgeSpeeds;
-	float edgeSpeed;
-	float cost;//the time cost that used in all the calculation 
+	double edgeLength;
+	vector<double> edgeSpeeds;
+	double edgeSpeed;
+	double cost;//the time cost that used in all the calculation 
 	edge();
-	edge(int node,float edgeLength,float edgeSpeed);
+	edge(int node,double edgeLength,double edgeSpeed);
 	int getNode();
-	float getlength();
-	float getspeed();
+	double getlength();
+	double getspeed();
 	void printEdges(unordered_map<int, vector<edge>> edges);
 };

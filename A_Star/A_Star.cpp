@@ -5,42 +5,42 @@
 
 
 
-float A_Star::calcF(float h, float g) {
+double A_Star::calcF(double h, double g) {
 	return h + g;
 };
 
-float A_Star::calcH(int startPointID, int destinationPointId, unordered_map<int, coordinates> coordinate, float maxSpeed, float R) {
-	float distance = calculateEuclideanDistance(startPointID, destinationPointId, coordinate);
+double A_Star::calcH(int startPointID, int destinationPointId, unordered_map<int, coordinates> coordinate, double maxSpeed, double R) {
+	double distance = calculateEuclideanDistance(startPointID, destinationPointId, coordinate);
 	if (distance < R)
 		return hoursToMinutes(distance / walkingSpeed);
-	float carTime = hoursToMinutes((distance - R) / maxSpeed);
-	float walkTime = hoursToMinutes(R / walkingSpeed);
-	float totalTime = carTime + walkTime;
+	double carTime = hoursToMinutes((distance - R) / maxSpeed);
+	double walkTime = hoursToMinutes(R / walkingSpeed);
+	double totalTime = carTime + walkTime;
 	return totalTime;
 
 };
 
 
-float A_Star::calcG(int startN, edge endN, float prevG, float index) {
+double A_Star::calcG(int startN, edge endN, double prevG, double index) {
 
-	float roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeeds[index]);
+	double roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeeds[index]);
 	roadTime = hoursToMinutes(roadTime);
-	float time = prevG + roadTime;
+	double time = prevG + roadTime;
 	return time;
 
 };
 
-float A_Star::calcG(int startN, edge endN, float prevG) {
+double A_Star::calcG(int startN, edge endN, double prevG) {
 
-	float roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeed);
+	double roadTime = calculateRoadTime(endN.edgeLength, endN.edgeSpeed);
 	roadTime = hoursToMinutes(roadTime);
-	float time = prevG + roadTime;
+	double time = prevG + roadTime;
 	return time;
 
 
 };
 
-bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, float maxSpeed, float R, unordered_map<int, coordinates>coordinate)
+bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>coordinate)
 {
 	priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
 	priorityQ.push({ sourcePointID, 0 });
@@ -49,13 +49,13 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 
 	unordered_map<int, int> thePath;
 	unordered_set<int> visited;
-	unordered_map<int, float> gCosts;
+	unordered_map<int, double> gCosts;
 
 
-	unordered_map<int, float> walkDistances;
-	unordered_map<int, float> roadDistances;
-	unordered_map<int, float> walkTime;
-	unordered_map<int, float> roadTime;
+	unordered_map<int, double> walkDistances;
+	unordered_map<int, double> roadDistances;
+	unordered_map<int, double> walkTime;
+	unordered_map<int, double> roadTime;
 
 
 	walkDistances[sourcePointID] = 0;
@@ -65,7 +65,7 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 
 	gCosts[sourcePointID] = 0;
 	
-	float H = calcH(sourcePointID, destinationPointID, coordinate, maxSpeed, R);
+	double H = calcH(sourcePointID, destinationPointID, coordinate, maxSpeed, R);
 
 	while (!priorityQ.empty())
 	{
@@ -82,10 +82,10 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 			//p.nodes.insert();
 			result.walkingDistance = walkDistances[currentnodeId];
 			result.roadDistance = roadDistances[currentnodeId];
-			result.totalDistance = result.walkingDistance + result.roadDistance;
-			float roadInMinutes = hoursToMinutes(roadTime[currentnodeId]);
-			float walkingInMinutes = walkTime[currentnodeId];
-			result.time = walkingInMinutes + roadInMinutes;
+			result.totalDistance = roundUp(result.walkingDistance + result.roadDistance);
+			double roadInMinutes = hoursToMinutes(roadTime[currentnodeId]);
+			double walkingInMinutes = walkTime[currentnodeId];
+			result.time = roundUp(walkingInMinutes + roadInMinutes);
 			return result;
 		}
 		auto temp = visited.find(currentnodeId);
@@ -98,7 +98,7 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 		for (edge neighbor : graph[currentnodeId])
 		{
 			//calc the g , h and f for each neighbor 
-			float tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId]);
+			double tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId]);
 			auto it = gCosts.find(neighbor.node);
 			if (it==gCosts.end() || tempG < it->second)
 			{
@@ -131,7 +131,7 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 					roadTime[neighbor.node] = roadTime[currentnodeId];
 				}
 
-				float F = calcF(H, tempG);
+				double F = calcF(H, tempG);
 				if (!visited.count(neighbor.node)) {
 					priorityQ.push({ neighbor.node, F });
 				}
@@ -144,7 +144,7 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 
 
 
-bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID,float maxSpeed,float R, unordered_map<int, coordinates>coordinate,float timeIntervel,int speedSize)
+bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID,double maxSpeed,double R, unordered_map<int, coordinates>coordinate,double timeIntervel,int speedSize)
 {
 	priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
 	priorityQ.push({ sourcePointID, 0 });
@@ -153,13 +153,13 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 
 	unordered_map<int, int> thePath;
 	unordered_set<int> visited;
-	unordered_map<int, float> gCosts;
+	unordered_map<int, double> gCosts;
 	
 	
-	unordered_map<int, float> walkDistances;
-	unordered_map<int, float> roadDistances;
-	unordered_map<int, float> walkTime;
-	unordered_map<int, float> roadTime;
+	unordered_map<int, double> walkDistances;
+	unordered_map<int, double> roadDistances;
+	unordered_map<int, double> walkTime;
+	unordered_map<int, double> roadTime;
 
 	
 	walkDistances[sourcePointID] = 0;
@@ -169,8 +169,8 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 
 	gCosts[sourcePointID] = 0;
 
-	float currentTime = 0;
-	float currentSpeed = 0;
+	double currentTime = 0;
+	double currentSpeed = 0;
 	int speedIndex=0;
 	while (!priorityQ.empty())
 	{
@@ -194,8 +194,8 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 			result.walkingDistance = walkDistances[currentnodeId];
 			result.roadDistance = roadDistances[currentnodeId];
 			result.totalDistance = result.walkingDistance + result.roadDistance;
-			float roadInMinutes= (roadTime[currentnodeId]);
-			float walkingInMinutes = walkTime[currentnodeId];
+			double roadInMinutes= (roadTime[currentnodeId]);
+			double walkingInMinutes = walkTime[currentnodeId];
 			result.time = walkingInMinutes + roadInMinutes;
 			return result;
 		}
@@ -211,7 +211,7 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 		for (edge neighbor : neighbors)
 		{
 			//calc the g , h and f for each neighbor 
-			float tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId],speedIndex);
+			double tempG = calcG(currentnodeId, neighbor, gCosts[currentnodeId],speedIndex);
 
 			if (!gCosts.count(neighbor.node) || tempG < gCosts[neighbor.node])
 			{
@@ -244,8 +244,8 @@ bestPath A_Star::A(unordered_map<int, vector<edge>> graph, int sourcePointID, in
 					roadTime[neighbor.node] = roadTime[currentnodeId];
 				}
 
-				float H = calcH(sourcePointID,destinationPointID, coordinate,maxSpeed,R);
-				float F = calcF(H, tempG);
+				double H = calcH(sourcePointID,destinationPointID, coordinate,maxSpeed,R);
+				double F = calcF(H, tempG);
 				priorityQ.push({ neighbor.node,F });
 				
 			}

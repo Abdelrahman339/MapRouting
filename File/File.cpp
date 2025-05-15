@@ -2,7 +2,7 @@
 
 
 
-unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, float& maxSpeed) {
+unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, double& maxSpeed) {
 
 	//file info
 
@@ -19,10 +19,10 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 	infile >> numberOfnodes;
 
 	int node;
-	float x_coordinate, y_coordinate;
+	double x_coordinate, y_coordinate;
 
 	unordered_map<string, vector<int>> spatialGrid;
-	float cellSize;
+	double cellSize;
 
 	for (int i = 0; i < numberOfnodes; ++i)
 	{
@@ -55,7 +55,7 @@ unordered_map<int, coordinates> file::readFile(string fileName ,unordered_map<in
 	}
 	return Nodes;
 }
-unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, float& maxSpeed, float& Speed_Interval,int&speedSize) {
+unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, double& Speed_Interval,int&speedSize) {
 
 	//file info
 	string file = fileName;
@@ -72,10 +72,10 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 	
 
 	unordered_map<string, vector<int>> spatialGrid;
-	float cellSize;
+	double cellSize;
 
 	int node;
-	float x_coordinate, y_coordinate;
+	double x_coordinate, y_coordinate;
 	
 
 	
@@ -101,7 +101,7 @@ unordered_map<int, coordinates> file::readFile(string fileName, unordered_map<in
 		infile >> vertex >> e.node >> e.edgeLength;
 		for (int i = 0; i < speedSize; ++i)
 		{
-			float speed;
+			double speed;
 			infile >> speed;
 			e.edgeSpeeds.push_back(speed);
 			

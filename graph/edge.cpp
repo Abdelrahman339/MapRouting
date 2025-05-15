@@ -1,13 +1,13 @@
 #include "edge.h"
 
 edge::edge() {};
-edge::edge(int node, float edgeLength, float edgeSpeed) {};
+edge::edge(int node, double edgeLength, double edgeSpeed) {};
 
 
 int   edge::getNode() { return this->node; };
-float edge::getlength() { return this->edgeLength; };
+double edge::getlength() { return this->edgeLength; };
 
-//float edge::getspeed() { return this->edgeSpeed; };
+//double edge::getspeed() { return this->edgeSpeed; };
 
 void edge::printEdges(unordered_map<int, vector<edge>> edges)
 {

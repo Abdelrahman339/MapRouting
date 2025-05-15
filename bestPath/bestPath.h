@@ -10,8 +10,8 @@ class bestPath
 {
 public:
 	stack<int>nodes;
-	float time;
-	float roadDistance;
-	float walkingDistance;
-	float totalDistance;
+	double time;
+	double roadDistance;
+	double walkingDistance;
+	double totalDistance;
 };

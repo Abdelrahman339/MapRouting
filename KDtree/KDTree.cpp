@@ -22,20 +22,20 @@ KDNode* KDTree::build(vector<pair<int, coordinates>>& points, int depth) {
     return node;
 }
 
-void KDTree::radiusSearch(KDNode* node, float x, float y, float radiusSquared, unordered_map<int, float>& result, int depth) {
+void KDTree::radiusSearch(KDNode* node, double x, double y, double radiusSquared, unordered_map<int, double>& result, int depth) {
     if (!node) return;
 
-    float dx = node->point.x_coordinate - x;
-    float dy = node->point.y_coordinate - y;
-    float distSq = dx * dx + dy * dy;
+    double dx = node->point.x_coordinate - x;
+    double dy = node->point.y_coordinate - y;
+    double distSq = dx * dx + dy * dy;
 
     if (distSq <= radiusSquared) {
         result[node->nodeId] = sqrt(distSq);
     }
 
     int axis = depth % 2;
-    float delta = (axis == 0) ? dx : dy;
-    float deltaSq = delta * delta;
+    double delta = (axis == 0) ? dx : dy;
+    double deltaSq = delta * delta;
 
     if (delta > 0) {
         radiusSearch(node->left, x, y, radiusSquared, result, depth + 1);
@@ -57,8 +57,8 @@ void KDTree::buildTree(const unordered_map<int, coordinates>& nodes) {
     root = build(points, 0);
 }
 
-unordered_map<int, float> KDTree::queryRadius(float x, float y, float radius) {
-    unordered_map<int, float> result;
+unordered_map<int, double> KDTree::queryRadius(double x, double y, double radius) {
+    unordered_map<int, double> result;
     radiusSearch(root, x, y, radius * radius, result, 0);
     return result;
 }

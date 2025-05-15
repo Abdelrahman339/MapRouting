@@ -27,27 +27,27 @@ using namespace std;
 class A_Star {
 
 public:
-	float f, h, g;
+	double f, h, g;
 
 
 
-	float calcF(float h, float g);
-	float calcH(int startPointID, int destinationPointId, unordered_map<int, coordinates> coordinate, float maxSpeed, float R);
-	float calcG(int startN, edge endN, float prevG,float index);
-	float calcG(int startN, edge endN, float prevG);
+	double calcF(double h, double g);
+	double calcH(int startPointID, int destinationPointId, unordered_map<int, coordinates> coordinate, double maxSpeed, double R);
+	double calcG(int startN, edge endN, double prevG,double index);
+	double calcG(int startN, edge endN, double prevG);
 
-	float calcHForEndpoint(int nodeId, const unordered_map<int, float>& endPoints, const unordered_map<int, coordinates>& coordinate, float maxSpeed, float R);
+	double calcHForEndpoint(int nodeId, const unordered_map<int, double>& endPoints, const unordered_map<int, coordinates>& coordinate, double maxSpeed, double R);
 
-	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, float maxSpeed, float R, unordered_map<int, coordinates>, float timeIntervel, int speedSize);
+	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>, double timeIntervel, int speedSize);
 	
-	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, float maxSpeed, float R, unordered_map<int, coordinates>);
+	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>);
 
 };
 
 
 struct NodeInfo {
 	int node;
-	float fCost;
+	double fCost;
 
 	// Priority queue comparator (min-heap)
 	bool operator>(const NodeInfo& other) const {

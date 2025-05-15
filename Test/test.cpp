@@ -8,8 +8,8 @@ void test::doTest(char choice)
 	unordered_map<int, coordinates> copyCoor;
 	vector<query> queries;
 	vector<bestPath> p;
-	float maxSpeed = -1;
-	float timeInterval = 0;
+	double maxSpeed = -1;
+	double timeInterval = 0;
 	int speedSize;
 	file f;
 	string fileName;
@@ -51,8 +51,8 @@ void test::doTest(char choice)
 		copyCoor = coor;
 
 		
-		unordered_map<int, float> startPoints = kd.queryRadius(q.startCoordinate.x_coordinate,q.startCoordinate.y_coordinate,q.R);
-		unordered_map<int, float> endPoints = kd.queryRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R);
+		unordered_map<int, double> startPoints = kd.queryRadius(q.startCoordinate.x_coordinate,q.startCoordinate.y_coordinate,q.R);
+		unordered_map<int, double> endPoints = kd.queryRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R);
 		//add the start point and the distenation point in the graph for each qeuery
 		sourcePointId = addNode(copyGraph, startPoints);
 		destinationPointID = addNode(copyGraph, endPoints);
@@ -71,7 +71,7 @@ void test::doTest(char choice)
 
 
 	auto stopIO = high_resolution_clock::now();
-	double elapsedTimeWithIO = duration<float, milli>(stopIO - startIO).count();
+	double elapsedTimeWithIO = duration<double, milli>(stopIO - startIO).count();
 	cout << "Not added yet" << " ms" << endl;
 	cout << endl;
 	cout << elapsedTimeWithIO << " ms" << endl;
@@ -85,8 +85,8 @@ void test::bounsTest()
 	unordered_map<int, coordinates> copyCoor;
 	vector<query> queries;
 	vector<bestPath> p;
-	float maxSpeed = -1;
-	float timeInterval = 0;
+	double maxSpeed = -1;
+	double timeInterval = 0;
 	int speedSize = 0;
 	file f;
 	string fileName;
@@ -117,8 +117,8 @@ void test::bounsTest()
 
 		copyGraph = graph;
 		copyCoor = coor;
-		unordered_map<int, float> startPoints = getNodesWithinRadius(q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate, q.R, copyCoor);
-		unordered_map<int, float> endPoints = getNodesWithinRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R, copyCoor);
+		unordered_map<int, double> startPoints = getNodesWithinRadius(q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate, q.R, copyCoor);
+		unordered_map<int, double> endPoints = getNodesWithinRadius(q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, q.R, copyCoor);
 		//add the start point and the distenation point in the graph for each qeuery
 		sourcePointId = addNode(copyGraph, startPoints);
 		destinationPointID = addNode(copyGraph, endPoints);
