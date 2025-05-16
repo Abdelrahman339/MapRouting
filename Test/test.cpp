@@ -1,5 +1,7 @@
 #include "../Test/test.h"
 #include "../KDtree/KDTree.h"
+#include "../mapVisualization/visual.cpp"
+//#include "../mapVisualization/visual.cpp"
 void test::doTest(char choice)
 {
 	unordered_map<int, vector<edge>> graph;
@@ -37,7 +39,7 @@ void test::doTest(char choice)
 
 	f.readFile(fileName, graph, maxSpeed, coor);
 	f.readQuery(queryFileName, queries);
-	auto startIO = high_resolution_clock::now();	
+	auto startIO = high_resolution_clock::now();
 	KDTree kd;
 	kd.buildTree(coor);
 
@@ -153,6 +155,9 @@ char test::simpleTest()
 }
 void test::displayTest(char choice) {
 
+	vector<int> shortest_path = { 11, 10, 7,3,4,5 };
+	string txtFile = "Data/testCases/[3] Large Cases/input/SFMap.txt";
+	MapVisualizer m;
 	switch (choice) {
 	case '1':
 		doTest(simpleTest());
@@ -164,8 +169,12 @@ void test::displayTest(char choice) {
 		doTest('7');
 		break;
 	case '4':
+		m.startVisualization(shortest_path,txtFile,"forVisualization/Open_Sans/OpenSans.ttf");
+		break;
+	case'5':
 		bounsTest();
 		break;
+
 	default:
 		cout << "invalid choice";
 	}
