@@ -139,8 +139,8 @@ void file::writeFile(string fileName, vector<bestPath> queries)
 		bool first = true;
 		while (!path.nodes.empty()) {
 			if (!first) file << " ";
-			file << path.nodes.top();
-			path.nodes.pop();
+			file << path.nodes.front();
+			path.nodes.pop_front();
 			first = false;
 		}
 		file << "\n";

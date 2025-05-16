@@ -9,9 +9,10 @@ using namespace std;
 class test
 {
 public:
-	void static displayTest(char choice);
-	char static simpleTest();
-	void static bounsTest();
-	void static doTest(char choice);
+	void  visual();
+	void  displayTest(char choice);
+	char  simpleTest();
+	void  bounsTest();
+	bestPath  doTest(char choice);
 
 };

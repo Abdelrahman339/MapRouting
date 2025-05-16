@@ -2,7 +2,9 @@
 #include "../KDtree/KDTree.h"
 #include "../mapVisualization/visual.cpp"
 //#include "../mapVisualization/visual.cpp"
-void test::doTest(char choice)
+
+string fileName;
+bestPath test::doTest(char choice)
 {
 	unordered_map<int, vector<edge>> graph;
 	unordered_map<int, vector<edge>> copyGraph;
@@ -14,7 +16,6 @@ void test::doTest(char choice)
 	double timeInterval = 0;
 	int speedSize;
 	file f;
-	string fileName;
 	string queryFileName;
 	string dir;
 	string map;
@@ -75,13 +76,15 @@ void test::doTest(char choice)
 
 	f.writeFile(map, p);
 
-
-
-
 	double elapsedTimeWithIO = duration<double, milli>(stopIO - startIO).count();
 	cout << "Not added yet" << " ms" << endl;
 	cout << endl;
 	cout << elapsedTimeWithIO << " ms" << endl;
+
+
+	return p[0];
+
+
 }
 
 void test::bounsTest()
@@ -153,11 +156,43 @@ char test::simpleTest()
 	cin >> choice;
 	return choice;
 }
+void test::visual() 
+{
+	MapVisualizer m;
+	cout << "[1] Sample Test. [2] Meduim Test. [3] Large Test. [4] Bouns Test.";
+	char choice;
+	cin >> choice;
+	bestPath path;
+	switch (choice) {
+	case '1':
+		path=doTest(simpleTest());
+		break;
+	case '2':
+		path = doTest('6');
+		break;
+	case '3':
+		path = doTest('7');
+		break;
+	case '4':
+		bounsTest();
+		break;
+
+	default:
+		cout << "invalid choice";
+	}
+
+	vector<int> bestpath;
+	while (!path.nodes.empty())
+	{
+		bestpath.push_back(path.nodes.front());
+		path.nodes.pop_front();
+	}
+	m.startVisualization(bestpath, fileName, "forVisualization/Open_Sans/OpenSans.ttf");
+
+};
 void test::displayTest(char choice) {
 
-	vector<int> shortest_path = { 11, 10, 7,3,4,5 };
-	string txtFile = "Data/testCases/[3] Large Cases/input/SFMap.txt";
-	MapVisualizer m;
+
 	switch (choice) {
 	case '1':
 		doTest(simpleTest());
@@ -169,10 +204,10 @@ void test::displayTest(char choice) {
 		doTest('7');
 		break;
 	case '4':
-		m.startVisualization(shortest_path,txtFile,"forVisualization/Open_Sans/OpenSans.ttf");
+		bounsTest();
 		break;
 	case'5':
-		bounsTest();
+		visual();
 		break;
 
 	default:

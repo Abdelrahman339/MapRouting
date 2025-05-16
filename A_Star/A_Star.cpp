@@ -61,7 +61,7 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>> &graph, int sourcePoin
 			vector<int> path;
 
 			for (int node = thePath[destinationPointID]; node != sourcePointID; node = thePath[node])
-				result.nodes.push(node);
+				result.nodes.push_front(node);
 
 			//p.nodes.insert();
 			result.walkingDistance = current.walkDist;
