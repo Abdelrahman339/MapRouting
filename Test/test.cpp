@@ -163,6 +163,8 @@ void test::visual()
 	char choice;
 	cin >> choice;
 	bestPath path;
+	string dir = "Data/testCases/[3] Large Cases/input/";
+	string map = "SFMap.txt";
 	switch (choice) {
 	case '1':
 		path=doTest(simpleTest());
@@ -171,7 +173,8 @@ void test::visual()
 		path = doTest('6');
 		break;
 	case '3':
-		path = doTest('7');
+		fileName = dir + map;
+		path.nodes = {1,2,3,4};
 		break;
 	case '4':
 		bounsTest();
