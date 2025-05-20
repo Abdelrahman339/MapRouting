@@ -1,19 +1,18 @@
 #include "File.h"
 
-
-
-void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, double& maxSpeed, vector<coordinates> &Nodes){
-
-	//file info
-
+// ===================================================
+// Reads coordinates and constructs the graph 
+// Time Complexity: O(|V| + |E|)
+// |V|: number of nodes, |E|: number of roads
+// ===================================================
+void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, vector<coordinates>& Nodes) {
 	string file = fileName;
 	ifstream infile(file);
 	if (!infile) {
 		cout << "Failed to open file.\n";
 	}
 
-
-	//coordinates of each node 
+	// Read node coordinates
 	int numberOfnodes;
 	infile >> numberOfnodes;
 	Nodes.reserve(numberOfnodes);
@@ -21,57 +20,53 @@ void file::readFile(string fileName ,unordered_map<int, vector<edge>>& graph, do
 	int node;
 	double x_coordinate, y_coordinate;
 
-
-	for (int i = 0; i < numberOfnodes; ++i)
-	{
+	for (int i = 0; i < numberOfnodes; ++i) { // O(|V|)
 		infile >> node >> x_coordinate >> y_coordinate;
 		coordinates c;
 		c.setX_coordinate(x_coordinate);
 		c.setY_coordinate(y_coordinate);
 		Nodes.push_back(c);
-	
 	}
 
-
-	//graph construction 
+	// Construct the graph
 	int numberOfEdges;
 	infile >> numberOfEdges;
 	int temp;
 	edge e;
 	int vertex;
-	for (int i = 0; i < numberOfEdges; ++i) {
+
+	for (int i = 0; i < numberOfEdges; ++i) { // O(|E|)
 		infile >> vertex >> e.node >> e.edgeLength >> e.edgeSpeed;
 		graph[vertex].push_back(e);
 		temp = vertex;
 		vertex = e.node;
 		e.node = temp;
-		graph[vertex].push_back(e);
-
+		graph[vertex].push_back(e); 
 
 		if (e.edgeSpeed > maxSpeed)
 			maxSpeed = e.edgeSpeed;
 	}
 }
-void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, double& Speed_Interval,int&speedSize, unordered_map <int, coordinates>& Nodes) {
 
-	//file info
+// ===================================================
+// Reads coordinates and constructs the graph 
+// Time Complexity: O(|V| + |E|)
+// ===================================================
+void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, double& Speed_Interval, int& speedSize, unordered_map <int, coordinates>& Nodes) {
 	string file = fileName;
 	ifstream infile(file);
 	if (!infile) {
 		cout << "Failed to open file.\n";
 	}
 
-	//coordinates of each node 
+	// Read node coordinates
 	int numberOfnodes;
 	infile >> numberOfnodes;
 
 	int node;
 	float x_coordinate, y_coordinate;
 
-
-
-	for (int i = 0; i < numberOfnodes; ++i)
-	{
+	for (int i = 0; i < numberOfnodes; ++i) { // O(|V|)
 		infile >> node >> x_coordinate >> y_coordinate;
 		coordinates c;
 		c.setX_coordinate(x_coordinate);
@@ -79,65 +74,68 @@ void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, do
 		Nodes[node] = c;
 	}
 
-
-	//graph construction 
+	// Construct the graph
 	int numberOfEdges;
 	infile >> numberOfEdges;
 	int temp;
 	edge e;
 	int vertex;
-	for (int i = 0; i < numberOfEdges; ++i) {
+
+	for (int i = 0; i < numberOfEdges; ++i) { // O(|E|)
 		infile >> vertex >> e.node >> e.edgeLength >> e.edgeSpeed;
 		graph[vertex].push_back(e);
 		temp = vertex;
 		vertex = e.node;
 		e.node = temp;
-		graph[vertex].push_back(e);
-
+		graph[vertex].push_back(e); // bidirectional
 
 		if (e.edgeSpeed > maxSpeed)
 			maxSpeed = e.edgeSpeed;
 	}
 }
 
-void file::readQuery(string fileName, vector<query> &queries)
-{
+// ===================================================
+// Reads a list of queries from file
+// Time Complexity: O(Q)
+// Q = number of queries
+// ===================================================
+void file::readQuery(string fileName, vector<query>& queries) {
 	string file = fileName;
 	ifstream infile(file);
 	if (!infile) {
 		cout << "Failed to open file.\n";
 	}
 
-	//query constract
-
 	int numberOfQueries;
 	infile >> numberOfQueries;
 	query q;
 
-	for (int i = 0; i < numberOfQueries; i++)
-	{
+	for (int i = 0; i < numberOfQueries; i++) { // O(Q)
 		q.NumOfQueries = numberOfQueries;
-		infile >> q.startCoordinate.x_coordinate >> q.startCoordinate.y_coordinate >> q.destCoordinate.x_coordinate >> q.destCoordinate.y_coordinate >> q.R;
+		infile >> q.startCoordinate.x_coordinate >> q.startCoordinate.y_coordinate
+			>> q.destCoordinate.x_coordinate >> q.destCoordinate.y_coordinate >> q.R;
 		q.R = meterToKilometer(q.R);
 		queries.push_back(q);
 	}
+}
 
-};
-
-void file::writeFile(string fileName, vector<bestPath> queries)
-{
+// ===================================================
+// Writes results of queries to a file
+// Time Complexity: O(Q · L)
+// Q = number of queries, L = max path length (nodes per bestPath)
+// ===================================================
+void file::writeFile(string fileName, vector<bestPath> queries) {
 	fileName = "Output/" + fileName;
 	ofstream file(fileName);
 
 	if (!file.is_open()) {
-	cout<<"Error opening file!" <<endl;
+		cout << "Error opening file!" << endl;
 		return;
 	}
 
-	for (bestPath path : queries) {
-
+	for (bestPath path : queries) { // O(Q)
 		bool first = true;
-		while (!path.nodes.empty()) {
+		while (!path.nodes.empty()) { // O(L)
 			if (!first) file << " ";
 			file << path.nodes.front();
 			path.nodes.pop_front();

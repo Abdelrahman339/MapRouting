@@ -36,10 +36,6 @@ public:
 	double calcG(int startN, edge endN, double prevG,double index);
 	double calcG(int startN, edge endN, double prevG);
 
-	double calcHForEndpoint(int nodeId, const unordered_map<int, double>& endPoints, const unordered_map<int, coordinates>& coordinate, double maxSpeed, double R);
-
-	bestPath A(unordered_map<int, vector<edge>> graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, unordered_map<int, coordinates>, double timeIntervel, int speedSize);
-	
 	bestPath A(const unordered_map<int, vector<edge>>& graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, const vector<coordinates>&);
 
 };
