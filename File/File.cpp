@@ -35,7 +35,7 @@ void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, do
 	edge e;
 	int vertex;
 
-	for (int i = 0; i < numberOfEdges; ++i) { // O(|E|)
+	for (int i = 0; i < numberOfEdges; ++i) { // GRAPH CONSTRUCTION => O(|E|)
 		infile >> vertex >> e.node >> e.edgeLength >> e.edgeSpeed;
 		graph[vertex].push_back(e);
 		temp = vertex;
@@ -48,51 +48,6 @@ void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, do
 	}
 }
 
-// ===================================================
-// Reads coordinates and constructs the graph 
-// Time Complexity: O(|V| + |E|)
-// ===================================================
-void file::readFile(string fileName, unordered_map<int, vector<edge>>& graph, double& maxSpeed, double& Speed_Interval, int& speedSize, unordered_map <int, coordinates>& Nodes) {
-	string file = fileName;
-	ifstream infile(file);
-	if (!infile) {
-		cout << "Failed to open file.\n";
-	}
-
-	// Read node coordinates
-	int numberOfnodes;
-	infile >> numberOfnodes;
-
-	int node;
-	float x_coordinate, y_coordinate;
-
-	for (int i = 0; i < numberOfnodes; ++i) { // O(|V|)
-		infile >> node >> x_coordinate >> y_coordinate;
-		coordinates c;
-		c.setX_coordinate(x_coordinate);
-		c.setY_coordinate(y_coordinate);
-		Nodes[node] = c;
-	}
-
-	// Construct the graph
-	int numberOfEdges;
-	infile >> numberOfEdges;
-	int temp;
-	edge e;
-	int vertex;
-
-	for (int i = 0; i < numberOfEdges; ++i) { // O(|E|)
-		infile >> vertex >> e.node >> e.edgeLength >> e.edgeSpeed;
-		graph[vertex].push_back(e);
-		temp = vertex;
-		vertex = e.node;
-		e.node = temp;
-		graph[vertex].push_back(e); // bidirectional
-
-		if (e.edgeSpeed > maxSpeed)
-			maxSpeed = e.edgeSpeed;
-	}
-}
 
 // ===================================================
 // Reads a list of queries from file

@@ -14,8 +14,6 @@ bestPath test::doTest(char choice)
     vector<query> queries;
     vector<bestPath> p;
     double maxSpeed = -1;
-    double timeInterval = 0;
-    int speedSize;
     file f;
     string queryFileName;
     string dir;
@@ -42,29 +40,27 @@ bestPath test::doTest(char choice)
     }
 
     // Read map and queries
-    f.readFile(fileName, graph, maxSpeed, coor);           // O(|V| + |E|)
+    f.readFile(fileName, graph, maxSpeed, coor);           // O(|N| + |E|)
     f.readQuery(queryFileName, queries);                    // O(Q)
 
     auto startIO = high_resolution_clock::now();
 
     KDTree kd;
-    kd.buildTree(coor);                                     // O(|V| log |V|)
+    kd.buildTree(coor);                                     // O(|N| log |N|)
 
     int sourcePointId;
     int destinationPointID;
 
     for (query q : queries) {                               // O(Q)
-        copyGraph = graph;                                  // O(|V| + |E|) (copying unordered_map and vectors)
-        copyCoor = coor;                                    // O(|V|)
+        copyGraph = graph;                                  // O(|N| + |E|)
+        copyCoor = coor;                                    // O(|N|)
 
         vector<pair<int, double>> startPoints, endPoints;
-        startPoints.reserve(128);
-        endPoints.reserve(128);
         double radiusSquared = q.R * q.R;
 
         kd.radiusSearch(kd.root, q.startCoordinate.x_coordinate, q.startCoordinate.y_coordinate,
             q.destCoordinate.x_coordinate, q.destCoordinate.y_coordinate, radiusSquared, startPoints, endPoints, 0);
-        // radiusSearch complexity depends on radius and tree structure, approx O(log |V| + P) where P = # points in radius
+        // O(log |N| + P) , P = # points in radius
 
         // Add start/destination nodes to graph for this query
         sourcePointId = addNode(copyGraph, startPoints);   // O(P)
@@ -75,7 +71,6 @@ bestPath test::doTest(char choice)
 
         A_Star path;
         p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor));
-        // A* search complexity: O(|S| * |E'| log |V'|), depends on graph explored
 
         startPoints.clear();
         endPoints.clear();
@@ -86,14 +81,13 @@ bestPath test::doTest(char choice)
     f.writeFile(map, p);                                   // O(Q * L), L = avg path length
 
     double elapsedTimeWithIO = duration<double, milli>(stopIO - startIO).count();
-    cout << "Not added yet" << " ms" << endl;
-    cout << endl;
+
     cout << elapsedTimeWithIO << " ms" << endl;
 
     return p[0];
 }
 
-// Simple menu for map selection
+
 char test::simpleTest()
 {
     char choice;
@@ -104,12 +98,12 @@ char test::simpleTest()
     return choice;
 }
 
-// Visualization function (left commented as requested)
-/*
+// Visualization function
+
 void test::visual()
 {
     MapVisualizer m;
-    cout << "[1] Sample Test. [2] Medium Test. [3] Large Test. [4] Bonus Test.";
+    cout << "[1] Sample Test. [2] Medium Test. [3] Large Test";
     char choice;
     cin >> choice;
     bestPath path;
@@ -123,11 +117,7 @@ void test::visual()
         path = doTest('6');
         break;
     case '3':
-        fileName = dir + map;
-        path.nodes = {1,2,3,4};
-        break;
-    case '4':
-        bounsTest();
+        path = doTest('7');
         break;
 
     default:
@@ -142,9 +132,9 @@ void test::visual()
     }
     m.startVisualization(bestpath, fileName, "forVisualization/Open_Sans/OpenSans.ttf");
 }
-*/
 
-// Dispatch test based on choice
+
+
 void test::displayTest(char choice)
 {
     switch (choice) {
@@ -158,6 +148,7 @@ void test::displayTest(char choice)
         doTest('7');
         break;
     case '4':
+        visual();
         break;
     default:
         cout << "invalid choice";

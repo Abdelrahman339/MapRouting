@@ -10,9 +10,9 @@ double A_Star::calcF(double h, double g) {
 double A_Star::calcH(int startPointID, int destinationPointId, const vector<coordinates>& coordinate, double maxSpeed, double R) {
     double distance = calculateEuclideanDistance(startPointID, destinationPointId, coordinate); // O(1)
     if (distance < R)
-        return 60 * (distance / walkingSpeed); // O(1)
-    double carTime = 60 * ((distance - R) / maxSpeed); // O(1)
-    double walkTime = 60 * (R / walkingSpeed);         // O(1)
+        return HoursToMinutes((distance / walkingSpeed)); // O(1)
+    double carTime = HoursToMinutes(((distance - R) / maxSpeed)); // O(1)
+    double walkTime = HoursToMinutes((R / walkingSpeed));         // O(1)
     return carTime + walkTime; // O(1)
 };
 
@@ -24,7 +24,7 @@ double A_Star::calcG(int startN, edge endN, double prevG, double index) {
 
 double A_Star::calcG(int startN, edge endN, double prevG) {
     double roadTime = (endN.edgeLength / endN.edgeSpeed); // O(1)
-    roadTime = 60 * (roadTime); // O(1)
+    roadTime = HoursToMinutes((roadTime)); // O(1)
     return prevG + roadTime; // O(1)
 };
 
@@ -33,12 +33,13 @@ double A_Star::calcG(int startN, edge endN, double prevG) {
 bestPath A_Star::A(const unordered_map<int, vector<edge>>& graph, int sourcePointID, int destinationPointID, double maxSpeed, double R, const vector<coordinates>& coordinate)
 {
     priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
+    // {neighbor.node, F, WalkDist, RoadDist, WalkTime, RoadTime} 
     priorityQ.push({ sourcePointID, 0, 0, 0, 0, 0 }); // O(log V)
 
     bestPath result;
-    unordered_map<int, int> thePath; // O(1) access
-    unordered_set<int> visited; // O(1) insert/find
-    unordered_map<int, double> gCosts; // O(1) insert/find
+    unordered_map<int, int> thePath; // O(1) S
+    unordered_set<int> visited; // O(1) 
+    unordered_map<int, double> gCosts; // O(1)
 
     gCosts[sourcePointID] = 0; // O(1)
 
@@ -99,9 +100,5 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>>& graph, int sourcePoin
 };
 
 
-// calcF, calcG, calcH: O(1)
-// Main A* algorithm:
-// - Each node added to queue once: O(V log V)
-// - Each edge relaxed once: O(E log V)
-// Overall Time Complexity: O((V + E) log V)
+
 

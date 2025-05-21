@@ -22,7 +22,7 @@ int main() {
 	 
 	cout << "Map routing\n";
 
-	cout << "[1] Sample Test. [2] Meduim Test. [3] Large Test. [4] Bouns Test. [5] visual\n";
+	cout << "[1] Sample Test. [2] Meduim Test. [3] Large Test. [4] visual\n";
 	char choice;
 	cin >> choice;
 	

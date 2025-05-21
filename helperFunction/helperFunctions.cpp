@@ -40,6 +40,9 @@ double minuteToHours(double minutes) {
     return minutes / 60.0; // O(1)
 }
 
+double HoursToMinutes(double hours) {
+    return hours * 60;
+}
 
 // Adds a new node with edges to the graph, connecting to provided points [O(k)], where k = points.size()
 int addNode(unordered_map<int, vector<edge>>& graph, const vector<pair<int, double>>& points) {

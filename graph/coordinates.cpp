@@ -12,10 +12,5 @@ double coordinates::getY_coordinate() { return this->y_coordinate; };
 
 void coordinates::setX_coordinate(double c) { this->x_coordinate = c; };
 void coordinates::setY_coordinate(double c) { this->y_coordinate = c; };
-void coordinates::printCoordinates(unordered_map<int, coordinates> coor)
-{
-	for (auto& [node, coords] : coor) {
-		cout << "ID: " << node << " => (" << coords.getX_coordinate() << ", " << coords.getY_coordinate() << ")\n";
-	}
-};
+
 
