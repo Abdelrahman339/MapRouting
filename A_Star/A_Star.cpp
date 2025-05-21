@@ -34,10 +34,10 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>>& graph, int sourcePoin
 {
     priority_queue<NodeInfo, vector<NodeInfo>, greater<NodeInfo>> priorityQ;
     // {neighbor.node, F, WalkDist, RoadDist, WalkTime, RoadTime} 
-    priorityQ.push({ sourcePointID, 0, 0, 0, 0, 0 }); // O(log V)
+    priorityQ.push({ sourcePointID, 0, 0, 0, 0, 0 }); // O(log N)
 
     bestPath result;
-    unordered_map<int, int> thePath; // O(1) S
+    unordered_map<int, int> thePath; // O(1) 
     unordered_set<int> visited; // O(1) 
     unordered_map<int, double> gCosts; // O(1)
 
@@ -45,10 +45,10 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>>& graph, int sourcePoin
 
     double H = calcH(sourcePointID, destinationPointID, coordinate, maxSpeed, R); // O(1)
 
-    while (!priorityQ.empty()) // O(V)
+    while (!priorityQ.empty()) // O(N)
     {
         NodeInfo current = priorityQ.top(); // O(1)
-        priorityQ.pop(); // O(log V)
+        priorityQ.pop(); // O(log N)
 
         if (current.node == destinationPointID) // O(1)
         {

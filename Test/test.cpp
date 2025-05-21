@@ -72,7 +72,7 @@ bestPath test::doTest(char choice)
         copyCoor.push_back(q.destCoordinate);               // O(1)
 
         A_Star path;
-        p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor));
+        p.push_back(path.A(copyGraph, sourcePointId, destinationPointID, maxSpeed, q.R, copyCoor)); //O((N + E) log N)
 
         startPoints.clear();
         endPoints.clear();
