@@ -73,6 +73,7 @@ bestPath A_Star::A(const unordered_map<int, vector<edge>>& graph, int sourcePoin
             double tempG = calcG(current.node, neighbor, gCosts[current.node]); // O(1)
             auto it = gCosts.find(neighbor.node); // O(1)
 
+            //we haven't been to that node yet or there is a better way
             if (it == gCosts.end() || tempG < it->second) // O(1)
             {
                 thePath[neighbor.node] = current.node; // O(1)

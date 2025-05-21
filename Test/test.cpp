@@ -40,10 +40,12 @@ bestPath test::doTest(char choice)
     }
 
     // Read map and queries
+    auto startIO = high_resolution_clock::now();
     f.readFile(fileName, graph, maxSpeed, coor);           // O(|N| + |E|)
     f.readQuery(queryFileName, queries);                    // O(Q)
 
-    auto startIO = high_resolution_clock::now();
+
+    auto startWithoutIO = high_resolution_clock::now();
 
     KDTree kd;
     kd.buildTree(coor);                                     // O(|N| log |N|)
@@ -75,14 +77,14 @@ bestPath test::doTest(char choice)
         startPoints.clear();
         endPoints.clear();
     }
-
+    auto stopWithoutIO = high_resolution_clock::now();
     auto stopIO = high_resolution_clock::now();
-
-    f.writeFile(map, p);                                   // O(Q * L), L = avg path length
-
     double elapsedTimeWithIO = duration<double, milli>(stopIO - startIO).count();
+    double elapsedTimeWithoutIO = duration<double, milli>(stopWithoutIO - startWithoutIO).count();
+    f.writeFile(map, p,elapsedTimeWithIO, elapsedTimeWithoutIO);                                   // O(Q * L), L = avg path length
 
-    cout << elapsedTimeWithIO << " ms" << endl;
+
+   
 
     return p[0];
 }
@@ -103,7 +105,7 @@ char test::simpleTest()
 void test::visual()
 {
     MapVisualizer m;
-    cout << "[1] Sample Test. [2] Medium Test. [3] Large Test";
+    cout << "[1] Sample Test. [2] Medium Test. [3] Large Test"<<endl;
     char choice;
     cin >> choice;
     bestPath path;

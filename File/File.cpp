@@ -1,4 +1,5 @@
 #include "File.h"
+#include <chrono>
 
 // ===================================================
 // Reads coordinates and constructs the graph 
@@ -79,7 +80,10 @@ void file::readQuery(string fileName, vector<query>& queries) {
 // Time Complexity: O(Q · L)
 // Q = number of queries, L = max path length (nodes per bestPath)
 // ===================================================
-void file::writeFile(string fileName, vector<bestPath> queries) {
+void file::writeFile(string fileName, vector<bestPath> queries,double timeWithIo,double elapsedTimeWithouttIO) {
+	auto startIO = std::chrono::high_resolution_clock::now();
+
+
 	fileName = "Output/" + fileName;
 	ofstream file(fileName);
 
@@ -108,6 +112,15 @@ void file::writeFile(string fileName, vector<bestPath> queries) {
 
 		file << "\n";
 	}
+	auto endIO = std::chrono::high_resolution_clock::now();
+	double elapsedTimeWithIOAfterWrite = std::chrono::duration<double, milli>(startIO - endIO).count();
+	file << elapsedTimeWithouttIO << " ms";
+	file << "\n";
+	file << "\n";
+	file << timeWithIo+elapsedTimeWithIOAfterWrite<<" ms";
+	file<<"\n";
+
+	
 
 	file.close();
 }

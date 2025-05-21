@@ -44,7 +44,7 @@ double HoursToMinutes(double hours) {
     return hours * 60;
 }
 
-// Adds a new node with edges to the graph, connecting to provided points [O(k)], where k = points.size()
+// Adds a new node with edges to the graph, connecting to provided points O(k), where k = points.size()
 int addNode(unordered_map<int, vector<edge>>& graph, const vector<pair<int, double>>& points) {
     int nodeId = graph.size(); // O(1)
 
@@ -53,7 +53,7 @@ int addNode(unordered_map<int, vector<edge>>& graph, const vector<pair<int, doub
         e.node = pointID;
         e.edgeSpeed = 5;
 
-        // Initialize edgeSpeeds with same size as graph[0][0].edgeSpeeds
+        
         for (int i = 0; i < graph[0][0].edgeSpeeds.size(); i++) { // O(m), m = edgeSpeeds.size()
             e.edgeSpeeds.push_back(5);
         }
